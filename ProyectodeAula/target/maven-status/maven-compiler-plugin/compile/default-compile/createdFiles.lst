@@ -1,5 +1,6 @@
 placeHolderJtext$2.class
 registro$6.class
+Conexion.class
 registro$7.class
 registro$1.class
 registro.class
@@ -11,7 +12,7 @@ placeHolderJtext$1.class
 registro$9.class
 placeHolderJtext.class
 registro$3.class
-logica\Validación.class
+logica\ValidaciÃ³n.class
 login$1.class
 login.class
 registro$10.class

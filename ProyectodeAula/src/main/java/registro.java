@@ -12,6 +12,8 @@ import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.Desktop;
 import logica.Validación;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 import java.net.URL;
 
@@ -210,7 +212,7 @@ public class registro extends javax.swing.JFrame {
         formulario_p.add(txt_info5, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 325, -1, -1));
 
         caja_codigo.setForeground(new java.awt.Color(120, 120, 120));
-        caja_codigo.setText("2025######");
+        caja_codigo.setText("Ingrese su codigo");
         caja_codigo.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 82, 234)));
         caja_codigo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -380,48 +382,83 @@ public class registro extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_registrofaceActionPerformed
 
     private void bt_registroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_registroActionPerformed
-        // TODO add your handling code here:
-         String nombre = caja_nombre.getText();
-        String correo = caja_correo.getText();
-        String usuario = caja_usuario.getText();
-        String codigo = caja_codigo.getText();
+        String nombre = caja_nombre.getText().trim();
+        String correo = caja_correo.getText().trim();
+        String usuario = caja_usuario.getText().trim();
+        String codigo = caja_codigo.getText().trim();
         String pass = new String(caja_contraseña.getPassword());
-        
+
+        // Validar que no hayan campos vacios
         if (nombre.isEmpty() || correo.isEmpty() || usuario.isEmpty() || codigo.isEmpty() || pass.isEmpty()) {
-    JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios");
-    return;
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios");
+        return;
+}
+
+        // Validaciones
+        if (!Validación.esNombreValido(nombre)) {
+            JOptionPane.showMessageDialog(this, "Nombre inválido");
+            caja_nombre.requestFocus();
+        return;
+}
+
+        if (!Validación.esCorreoInstitucional(correo)) {
+            JOptionPane.showMessageDialog(this, "Correo institucional inválido");
+            caja_correo.requestFocus();
+        return;
+}
+
+        if (!Validación.esUsuarioValido(usuario)) {
+            JOptionPane.showMessageDialog(this, "Usuario inválido");
+            caja_usuario.requestFocus();
+        return;
+}
+
+        if (!Validación.esCodigoValido(codigo)) {
+            JOptionPane.showMessageDialog(this, "Código estudiantil inválido");
+            caja_codigo.requestFocus();
+        return;
+}
+
+        if (!Validación.esPasswordValida(pass)) {
+            JOptionPane.showMessageDialog(this, "Contraseña inválida");
+            caja_contraseña.requestFocus();
+        return;
+}
+
+        if (!check_terminos.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Debe aceptar los términos y condiciones");
+            check_terminos.requestFocus();
+        return;
+}
+
+        //Insertar Datos en la BD  
+        try {
+            Connection con = Conexion.conectar();
+
+            String sql = "INSERT INTO usuarios (nombre_completo, correo, usuario, codigo_estudiantil, contrasena) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setString(1, nombre);
+            ps.setString(2, correo);
+            ps.setString(3, usuario);
+            ps.setString(4, codigo);
+            ps.setString(5, pass);
+
+            ps.executeUpdate();
+
+            JOptionPane.showMessageDialog(this, "Se ha registrado de manera exitosa");
+
+            // Sirve para limpiar los campos
+            caja_nombre.setText("");
+            caja_correo.setText("");
+            caja_usuario.setText("");
+            caja_codigo.setText("");
+            caja_contraseña.setText("");
+            check_terminos.setSelected(false);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
-    
-    if (!Validación.esNombreValido(nombre)) {
-    JOptionPane.showMessageDialog(this, "Nombre inválido");
-    caja_nombre.requestFocus();
-    return;
-}
-    if (!Validación.esCorreoInstitucional(correo)) {
-    JOptionPane.showMessageDialog(this, "Correo institucional inválido");
-    caja_correo.requestFocus();
-    return;
-}
-    if (!Validación.esUsuarioValido(usuario)) {
-    JOptionPane.showMessageDialog(this, "Usuario inválido");
-    caja_usuario.requestFocus();
-    return;
-}
-    if (!Validación.esCodigoValido(codigo)) {
-    JOptionPane.showMessageDialog(this, "Código estudiantil inválido");
-    caja_codigo.requestFocus();
-    return;
-}
-    if (!Validación.esPasswordValida(pass)) {
-    JOptionPane.showMessageDialog(this, "Contraseña inválida");
-    caja_contraseña.requestFocus();
-    return;
-}
-    if (!check_terminos.isSelected()) {
-    JOptionPane.showMessageDialog(this, "Debe aceptar los términos y condiciones");
-    check_terminos.requestFocus();
-    return;
-}
     }//GEN-LAST:event_bt_registroActionPerformed
 
     private void terminos(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_terminos
