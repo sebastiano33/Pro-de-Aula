@@ -1,13 +1,19 @@
+import logica.Validación;
 import java.awt.BorderLayout;
 import java.io.File;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
-import javafx.scene.Group; // CORREGIDO
-import javafx.scene.media.Media; // CORREGIDO
-import javafx.scene.media.MediaPlayer; // FALTA ESTA
-import javafx.scene.media.MediaView; // FALTA ESTA
+import javafx.scene.Group; 
+import javafx.scene.media.Media; 
+import javafx.scene.media.MediaPlayer; 
+import javafx.scene.media.MediaView; 
+import javax.swing.JTextField;
+import java.awt.Color;
+import java.awt.Desktop;
+import logica.Validación;
 import javax.swing.JOptionPane;
+import java.net.URL;
 
 public class registro extends javax.swing.JFrame {
     
@@ -15,37 +21,51 @@ public class registro extends javax.swing.JFrame {
 
     private final JFXPanel jfxpanel = new JFXPanel();
     public registro() {
+        initFX(); 
         initComponents();
+        placeHolderJtext.addPlaceholder(caja_nombre, "Nombre completo");
+        placeHolderJtext.addPlaceholder(caja_correo, "Correo electrónico");
+        placeHolderJtext.addPlaceholder(caja_usuario, "Usuario");
+         placeHolderJtext.addPlaceholderPassword(caja_contraseña, "Contraseña");
+        placeHolderJtext.addPlaceholder(caja_codigo, "Código");
         
-        panel_formulario.setBackground(new java.awt.Color(0, 0, 0, 0));
-        panel_formulario.setOpaque(false);
+        
+        
+       panel_formulario.setBackground(new java.awt.Color(0, 0, 0, 0));
+    panel_formulario.setOpaque(false);
+
+    jLayeredPane1.setOpaque(false);
+    jLayeredPane1.setBackground(new java.awt.Color(0, 0, 0, 0));
+
+    jLayeredPane1.add(panel_fondo, Integer.valueOf(-1));
+    jLayeredPane1.add(panel_formulario, Integer.valueOf(0));
+
+    panel_fondo.setBounds(0, 0, jLayeredPane1.getWidth(), jLayeredPane1.getHeight());
+    panel_formulario.setBounds(0, 0, jLayeredPane1.getWidth(), jLayeredPane1.getHeight());
+
+    jLayeredPane1.setLayer(panel_fondo, javax.swing.JLayeredPane.DEFAULT_LAYER);
+    jLayeredPane1.setLayer(panel_formulario, javax.swing.JLayeredPane.PALETTE_LAYER);
+
+    panel_fondo.setPreferredSize(new java.awt.Dimension(1280, 720));
+    panel_fondo.setMinimumSize(new java.awt.Dimension(1280, 720));
+
+    setResizable(false);
+    setLocationRelativeTo(null);
+
+    panel_fondo.setLayout(new BorderLayout());
+    panel_fondo.add(jfxpanel, BorderLayout.CENTER);
+    
+    addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowOpened(java.awt.event.WindowEvent e) {
+            createScene();
+        }
+    });
 
 
-        jLayeredPane1.setOpaque(false);
-        jLayeredPane1.setBackground(new java.awt.Color(0, 0, 0, 0));
-        panel_formulario.setOpaque(false);
-       
-        jLayeredPane1.add(panel_fondo, Integer.valueOf(-1));
-        jLayeredPane1.add(panel_formulario, Integer.valueOf(0));
+    setVisible(true);
 
-        panel_fondo.setBounds(0, 0, jLayeredPane1.getWidth(), jLayeredPane1.getHeight());
-        panel_formulario.setBounds(0, 0, jLayeredPane1.getWidth(), jLayeredPane1.getHeight());
-       
-        jLayeredPane1.setLayer(panel_fondo, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(panel_formulario, javax.swing.JLayeredPane.PALETTE_LAYER);
-        panel_fondo.setPreferredSize(new java.awt.Dimension(1280, 720));
-        panel_fondo.setMinimumSize(new java.awt.Dimension(1280, 720));
-        
-        createScene();
-        setTitle("Video Fondo");
-        
-        setResizable(false);
-        setLocationRelativeTo(null);
-        
-        panel_fondo.setLayout(new BorderLayout());
-        panel_fondo.add(jfxpanel, BorderLayout.CENTER);
-        this.setLocationRelativeTo(null);
-        
+  
     }
     
   private void createScene() {
@@ -53,33 +73,41 @@ public class registro extends javax.swing.JFrame {
         @Override
         public void run() {
             try {
-                // He cambiado las barras a / para evitar errores de escape
-                File file = new File("C:/Users/DISTRIEMPAQUES/Downloads/fondo video.mp4");
                 
-                if (!file.exists()) {
-                    System.out.println("OJO: El archivo no existe en esa ruta.");
-                }
+                String ruta = System.getProperty("user.dir") + "\\fondo video.mp4";
+                File file = new File(ruta);
 
+                if (!file.exists()) {
+                System.out.println("No se encontró el video");
+             return;
+                } 
+                
                 Media media = new Media(file.toURI().toString());
                 MediaPlayer oracleVid = new MediaPlayer(media);
                 MediaView mediaView = new MediaView(oracleVid);
-
-                // IMPORTANTE: Ajusta el video al tamaño del panel
-                mediaView.setFitWidth(panel_fondo.getWidth());
-                mediaView.setFitHeight(panel_fondo.getHeight());
-                mediaView.setPreserveRatio(false); // Para que llene todo el fondo
-
+                
                 Group root = new Group(mediaView);
-                Scene scene = new Scene(root);
+                Scene scene = new Scene(root); 
+                
+                mediaView.setFitWidth(1280);
+                mediaView.setFitHeight(720);
+              
 
-                jfxpanel.setScene(scene); // Asegúrate que se llame jfxpanel (minúscula)
+                
+
+                jfxpanel.setScene(scene); 
                 
                 oracleVid.setCycleCount(MediaPlayer.INDEFINITE);
                 oracleVid.setVolume(0.7);
-                oracleVid.play();
+                mediaView.setVisible(false);
+
+                oracleVid.setOnReady(() -> {
+                    mediaView.setVisible(true);
+                    oracleVid.play();
+                });
                 
             } catch (Exception e) {
-                e.printStackTrace(); // Esto te dirá en la consola exactamente qué falló
+                e.printStackTrace(); 
             }
         }
     });
@@ -98,7 +126,6 @@ public class registro extends javax.swing.JFrame {
         txt_info2 = new javax.swing.JLabel();
         caja_nombre = new javax.swing.JTextField();
         txt_info3 = new javax.swing.JLabel();
-        caja_correo = new javax.swing.JPasswordField();
         txt_info4 = new javax.swing.JLabel();
         caja_usuario = new javax.swing.JTextField();
         txt_info5 = new javax.swing.JLabel();
@@ -107,8 +134,9 @@ public class registro extends javax.swing.JFrame {
         caja_contraseña = new javax.swing.JPasswordField();
         check_terminos = new javax.swing.JCheckBox();
         label_terminos = new javax.swing.JLabel();
+        bt_registroface = new javax.swing.JButton();
         bt_registro = new javax.swing.JButton();
-        bt_faceId = new javax.swing.JButton();
+        caja_correo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -149,17 +177,17 @@ public class registro extends javax.swing.JFrame {
         caja_nombre.setForeground(new java.awt.Color(102, 102, 102));
         caja_nombre.setText("Escriba aquí su nombre.");
         caja_nombre.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 82, 234)));
+        caja_nombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                validacion(evt);
+            }
+        });
         formulario_p.add(caja_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 124, 349, 33));
 
         txt_info3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txt_info3.setForeground(new java.awt.Color(0, 82, 234));
         txt_info3.setText("Correo institucional");
         formulario_p.add(txt_info3, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 175, 117, -1));
-
-        caja_correo.setForeground(new java.awt.Color(120, 120, 120));
-        caja_correo.setText("jPasswordField1");
-        caja_correo.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 82, 234)));
-        formulario_p.add(caja_correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 197, 349, 37));
 
         txt_info4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txt_info4.setForeground(new java.awt.Color(0, 82, 234));
@@ -169,6 +197,11 @@ public class registro extends javax.swing.JFrame {
         caja_usuario.setForeground(new java.awt.Color(120, 120, 120));
         caja_usuario.setText("Ingrese su usuario");
         caja_usuario.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 82, 234)));
+        caja_usuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                validar(evt);
+            }
+        });
         formulario_p.add(caja_usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 274, 349, 33));
 
         txt_info5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -179,6 +212,11 @@ public class registro extends javax.swing.JFrame {
         caja_codigo.setForeground(new java.awt.Color(120, 120, 120));
         caja_codigo.setText("2025######");
         caja_codigo.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 82, 234)));
+        caja_codigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                validarq(evt);
+            }
+        });
         formulario_p.add(caja_codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 347, 349, 37));
 
         txt_info6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -189,6 +227,11 @@ public class registro extends javax.swing.JFrame {
         caja_contraseña.setForeground(new java.awt.Color(120, 120, 120));
         caja_contraseña.setText("jPasswordField2");
         caja_contraseña.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 82, 234)));
+        caja_contraseña.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                vali(evt);
+            }
+        });
         formulario_p.add(caja_contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 424, 349, 36));
 
         check_terminos.setForeground(new java.awt.Color(120, 120, 120));
@@ -198,18 +241,49 @@ public class registro extends javax.swing.JFrame {
         label_terminos.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         label_terminos.setForeground(new java.awt.Color(0, 82, 234));
         label_terminos.setText("Terminos y condiciones");
+        label_terminos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                terminos(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                entrada(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                salida(evt);
+            }
+        });
         formulario_p.add(label_terminos, new org.netbeans.lib.awtextra.AbsoluteConstraints(208, 480, -1, -1));
 
-        bt_registro.setBackground(new java.awt.Color(0, 82, 234));
-        bt_registro.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        bt_registro.setForeground(new java.awt.Color(255, 255, 255));
-        bt_registro.setText("Registarse");
-        formulario_p.add(bt_registro, new org.netbeans.lib.awtextra.AbsoluteConstraints(141, 516, 201, 40));
+        bt_registroface.setBackground(new java.awt.Color(0, 82, 234));
+        bt_registroface.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        bt_registroface.setForeground(new java.awt.Color(255, 255, 255));
+        bt_registroface.setText("Registrar mi cara");
+        bt_registroface.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_registrofaceActionPerformed(evt);
+            }
+        });
+        formulario_p.add(bt_registroface, new org.netbeans.lib.awtextra.AbsoluteConstraints(141, 516, 201, 40));
 
-        bt_faceId.setForeground(new java.awt.Color(0, 82, 234));
-        bt_faceId.setText("Registrar mi cara");
-        bt_faceId.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 82, 234), 2));
-        formulario_p.add(bt_faceId, new org.netbeans.lib.awtextra.AbsoluteConstraints(141, 568, 201, 40));
+        bt_registro.setForeground(new java.awt.Color(0, 82, 234));
+        bt_registro.setText("¡Registrarme!");
+        bt_registro.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 82, 234), 2));
+        bt_registro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_registroActionPerformed(evt);
+            }
+        });
+        formulario_p.add(bt_registro, new org.netbeans.lib.awtextra.AbsoluteConstraints(141, 568, 201, 40));
+
+        caja_correo.setForeground(new java.awt.Color(102, 102, 102));
+        caja_correo.setText("usuario@unicolombo.edu.co");
+        caja_correo.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 82, 234)));
+        caja_correo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                validación(evt);
+            }
+        });
+        formulario_p.add(caja_correo, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 200, 350, 40));
 
         javax.swing.GroupLayout panel_fondoLayout = new javax.swing.GroupLayout(panel_fondo);
         panel_fondo.setLayout(panel_fondoLayout);
@@ -261,6 +335,125 @@ public class registro extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void validación(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_validación
+        // TODO add your handling code here:
+        String correo = caja_correo.getText();
+        boolean valido = Validación.esCorreoInstitucional(correo);
+
+        marcarCampo(caja_correo, valido);
+    }//GEN-LAST:event_validación
+
+    private void validacion(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_validacion
+        // TODO add your handling code here:
+        String correo = caja_nombre.getText();
+        boolean valido = Validación.esNombreValido(correo);
+        marcarCampo(caja_nombre, valido);
+    }//GEN-LAST:event_validacion
+
+    private void validar(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_validar
+        // TODO add your handling code here:
+        String correo = caja_usuario.getText();
+        boolean valido = Validación.esUsuarioValido(correo);
+
+        marcarCampo(caja_usuario, valido);
+    }//GEN-LAST:event_validar
+
+    private void validarq(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_validarq
+        // TODO add your handling code here:
+        String correo = caja_codigo.getText();
+        boolean valido = Validación.esCodigoValido(correo);
+
+        marcarCampo(caja_codigo, valido);
+    }//GEN-LAST:event_validarq
+
+    private void vali(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_vali
+        // TODO add your handling code here:
+        String correo = caja_contraseña.getText();
+        boolean valido = Validación.esPasswordValida(correo);
+
+        marcarCampo(caja_contraseña, valido);
+    }//GEN-LAST:event_vali
+
+    private void bt_registrofaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_registrofaceActionPerformed
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_bt_registrofaceActionPerformed
+
+    private void bt_registroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_registroActionPerformed
+        // TODO add your handling code here:
+         String nombre = caja_nombre.getText();
+        String correo = caja_correo.getText();
+        String usuario = caja_usuario.getText();
+        String codigo = caja_codigo.getText();
+        String pass = new String(caja_contraseña.getPassword());
+        
+        if (nombre.isEmpty() || correo.isEmpty() || usuario.isEmpty() || codigo.isEmpty() || pass.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios");
+    return;
+        }
+    
+    if (!Validación.esNombreValido(nombre)) {
+    JOptionPane.showMessageDialog(this, "Nombre inválido");
+    caja_nombre.requestFocus();
+    return;
+}
+    if (!Validación.esCorreoInstitucional(correo)) {
+    JOptionPane.showMessageDialog(this, "Correo institucional inválido");
+    caja_correo.requestFocus();
+    return;
+}
+    if (!Validación.esUsuarioValido(usuario)) {
+    JOptionPane.showMessageDialog(this, "Usuario inválido");
+    caja_usuario.requestFocus();
+    return;
+}
+    if (!Validación.esCodigoValido(codigo)) {
+    JOptionPane.showMessageDialog(this, "Código estudiantil inválido");
+    caja_codigo.requestFocus();
+    return;
+}
+    if (!Validación.esPasswordValida(pass)) {
+    JOptionPane.showMessageDialog(this, "Contraseña inválida");
+    caja_contraseña.requestFocus();
+    return;
+}
+    if (!check_terminos.isSelected()) {
+    JOptionPane.showMessageDialog(this, "Debe aceptar los términos y condiciones");
+    check_terminos.requestFocus();
+    return;
+}
+    }//GEN-LAST:event_bt_registroActionPerformed
+
+    private void terminos(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_terminos
+        // TODO add your handling code here:
+        try {
+            String ruta = System.getProperty("user.dir") + "\\Terminos_Condiciones_SistemaVotacion.pdf";
+            File file = new File(ruta);
+
+            if (!file.exists()) {
+                JOptionPane.showMessageDialog(this, "No se encontró el PDF");
+                return;
+            }
+
+            Desktop.getDesktop().open(file);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al abrir el PDF");
+            e.printStackTrace();
+        }
+        
+    }//GEN-LAST:event_terminos
+
+    private void entrada(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_entrada
+        // TODO add your handling code here:
+        label_terminos.setForeground(Color.RED);
+    }//GEN-LAST:event_entrada
+
+    private void salida(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salida
+        // TODO add your handling code here:
+       label_terminos.setForeground(Color.BLUE);
+    }//GEN-LAST:event_salida
+
     /**
      * @param args the command line arguments
      */
@@ -287,11 +480,11 @@ public class registro extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bt_faceId;
     private javax.swing.JButton bt_registro;
+    private javax.swing.JButton bt_registroface;
     private javax.swing.JTextField caja_codigo;
     private javax.swing.JPasswordField caja_contraseña;
-    private javax.swing.JPasswordField caja_correo;
+    private javax.swing.JTextField caja_correo;
     private javax.swing.JTextField caja_nombre;
     private javax.swing.JTextField caja_usuario;
     private javax.swing.JCheckBox check_terminos;
@@ -310,7 +503,7 @@ public class registro extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 class PanelRedondeado extends javax.swing.JPanel {
     public PanelRedondeado() {
-        setOpaque(false); // Importante para que se vea el redondeo
+        setOpaque(false); 
     }
     @Override
     protected void paintComponent(java.awt.Graphics g) {
@@ -319,6 +512,21 @@ class PanelRedondeado extends javax.swing.JPanel {
         g2.setColor(new java.awt.Color(255, 255, 255, 80));
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 40, 40);
         super.paintComponent(g);
+    }
+}
+
+public void marcarCampo(JTextField campo, boolean valido) {
+    if (valido) {
+        campo.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.GREEN));
+    } else {
+        campo.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.RED));
+    }
+}
+private void initFX() {
+    try {
+        Platform.startup(() -> {});
+    } catch (IllegalStateException e) {
+      
     }
 }
 }
