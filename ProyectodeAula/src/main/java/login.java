@@ -8,6 +8,8 @@
  * @author DISTRIEMPAQUES
  */
 import java.awt.Color;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 public class login extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(login.class.getName());
@@ -17,6 +19,7 @@ public class login extends javax.swing.JFrame {
      */
     public login() {
         initComponents();
+        cargarIconos();
     }
 
     /**
@@ -81,7 +84,6 @@ public class login extends javax.swing.JFrame {
         pa_imagen.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 560, 320, -1));
 
         ima_label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        ima_label.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/bueno.png"))); // NOI18N
         ima_label.setToolTipText("");
         pa_imagen.add(ima_label, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -106,8 +108,6 @@ public class login extends javax.swing.JFrame {
         caja_usuario.setText("Usuario");
         caja_usuario.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(24, 90, 219)));
         pa_info.add(caja_usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 210, 410, 60));
-
-        icono_3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/ojo (1).png"))); // NOI18N
         pa_info.add(icono_3, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 330, 70, 50));
 
         caja_contraseña.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -127,7 +127,6 @@ public class login extends javax.swing.JFrame {
         bt_inicio.setBackground(new java.awt.Color(24, 90, 219));
         bt_inicio.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         bt_inicio.setForeground(new java.awt.Color(255, 255, 255));
-        bt_inicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/inicio.png"))); // NOI18N
         bt_inicio.setText("Iniciar Sesión");
         bt_inicio.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -141,7 +140,6 @@ public class login extends javax.swing.JFrame {
 
         bt_face.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         bt_face.setForeground(new java.awt.Color(24, 90, 219));
-        bt_face.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/face id.png"))); // NOI18N
         bt_face.setText("Face Id");
         bt_face.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(24, 90, 219), 2, true));
         pa_info.add(bt_face, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 570, 280, 70));
@@ -155,11 +153,7 @@ public class login extends javax.swing.JFrame {
         label_registro.setForeground(new java.awt.Color(24, 90, 219));
         label_registro.setText("Registrarme");
         pa_info.add(label_registro, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 650, 150, -1));
-
-        icono_1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/user.png"))); // NOI18N
         pa_info.add(icono_1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 220, 60, 70));
-
-        icono_2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/contraseña.png"))); // NOI18N
         pa_info.add(icono_2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 330, 60, 60));
 
         pa_fondo.add(pa_info, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 0, 780, 720));
@@ -240,4 +234,20 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JLabel txt_info4;
     private javax.swing.JLabel txt_info5;
     // End of variables declaration//GEN-END:variables
+private ImageIcon cargarIcono(String nombre, int ancho, int alto) {
+    String base = System.getProperty("user.dir");
+
+    ImageIcon icono = new ImageIcon(base + "\\" + nombre);
+
+    Image img = icono.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+
+    return new ImageIcon(img);
+}
+private void cargarIconos() {
+    icono_1.setIcon(cargarIcono("user.png", 32, 32));
+    icono_2.setIcon(cargarIcono("contraseña.png", 32, 32));
+    icono_3.setIcon(cargarIcono("ojo(1).png", 32, 32));
+    ima_label.setIcon(cargarIcono("bueno.png", 500, 720));
+    
+}
 }

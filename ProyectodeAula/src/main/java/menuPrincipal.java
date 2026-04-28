@@ -1,3 +1,7 @@
+
+import java.awt.Image;
+import javax.swing.ImageIcon;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -16,6 +20,7 @@ public class menuPrincipal extends javax.swing.JFrame {
      */
     public menuPrincipal() {
         initComponents();
+        cargarIconos();
         this.setSize(1280, 720);
 this.setLocationRelativeTo(null);
     }
@@ -66,7 +71,6 @@ this.setLocationRelativeTo(null);
                 g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 30, 30);
             }
         };
-        icono_votar = new javax.swing.JLabel();
         txt_info3 = new javax.swing.JLabel();
         txt_info4 = new javax.swing.JLabel();
         txt_info5 = new javax.swing.JLabel();
@@ -84,6 +88,7 @@ this.setLocationRelativeTo(null);
                 g2.fillOval(0, 0, getWidth(), getHeight());
             }
         };
+        icono_voto = new javax.swing.JLabel();
         tarjeta_2 = new javax.swing.JPanel() {
             @Override
             protected void paintComponent(java.awt.Graphics g) {
@@ -118,7 +123,7 @@ this.setLocationRelativeTo(null);
                 g2.fillOval(0, 0, getWidth(), getHeight());
             }
         };
-        jLabel1 = new javax.swing.JLabel();
+        icono_info = new javax.swing.JLabel();
         tarjeta_3 = new javax.swing.JPanel() {
             @Override
             protected void paintComponent(java.awt.Graphics g) {
@@ -153,6 +158,7 @@ this.setLocationRelativeTo(null);
                 g2.fillOval(0, 0, getWidth(), getHeight());
             }
         };
+        icono_perfil = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1280, 720));
@@ -200,10 +206,6 @@ this.setLocationRelativeTo(null);
         tarjeta_1.setOpaque(false);
         tarjeta_1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        icono_votar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        icono_votar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/face id.png"))); // NOI18N
-        tarjeta_1.add(icono_votar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, 100, 100));
-
         txt_info3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         txt_info3.setForeground(new java.awt.Color(0, 74, 173));
         txt_info3.setText("VOTAR");
@@ -221,15 +223,17 @@ this.setLocationRelativeTo(null);
 
         circulo1.setOpaque(false);
 
+        icono_voto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout circulo1Layout = new javax.swing.GroupLayout(circulo1);
         circulo1.setLayout(circulo1Layout);
         circulo1Layout.setHorizontalGroup(
             circulo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addComponent(icono_voto, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
         );
         circulo1Layout.setVerticalGroup(
             circulo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addComponent(icono_voto, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
         );
 
         tarjeta_1.add(circulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, 100, 100));
@@ -263,13 +267,13 @@ this.setLocationRelativeTo(null);
         circulo2Layout.setHorizontalGroup(
             circulo2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(circulo2Layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(icono_info, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         circulo2Layout.setVerticalGroup(
             circulo2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(circulo2Layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(icono_info, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -285,27 +289,29 @@ this.setLocationRelativeTo(null);
         txt_info9.setForeground(new java.awt.Color(0, 74, 173));
         txt_info9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txt_info9.setText("Ver perfil");
-        tarjeta_3.add(txt_info9, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 170, 140, 30));
+        tarjeta_3.add(txt_info9, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, 140, 30));
 
         txt_info10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txt_info10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txt_info10.setText("Consulta y actualiza tu información");
-        tarjeta_3.add(txt_info10, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 200, -1, -1));
+        tarjeta_3.add(txt_info10, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, -1, -1));
 
         txt_info11.setText("personal y datos de cuenta.");
-        tarjeta_3.add(txt_info11, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 220, -1, -1));
+        tarjeta_3.add(txt_info11, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, -1, -1));
 
         circulo3.setOpaque(false);
+
+        icono_perfil.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout circulo3Layout = new javax.swing.GroupLayout(circulo3);
         circulo3.setLayout(circulo3Layout);
         circulo3Layout.setHorizontalGroup(
             circulo3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addComponent(icono_perfil, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
         );
         circulo3Layout.setVerticalGroup(
             circulo3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addComponent(icono_perfil, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
         );
 
         tarjeta_3.add(circulo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, 100, 100));
@@ -346,8 +352,9 @@ this.setLocationRelativeTo(null);
     private javax.swing.JPanel circulo1;
     private javax.swing.JPanel circulo2;
     private javax.swing.JPanel circulo3;
-    private javax.swing.JLabel icono_votar;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel icono_info;
+    private javax.swing.JLabel icono_perfil;
+    private javax.swing.JLabel icono_voto;
     private javax.swing.JLabel label_cerrarS;
     private javax.swing.JLabel label_nombre1;
     private javax.swing.JLabel label_rol;
@@ -368,4 +375,19 @@ this.setLocationRelativeTo(null);
     private javax.swing.JLabel txt_info8;
     private javax.swing.JLabel txt_info9;
     // End of variables declaration//GEN-END:variables
+
+private ImageIcon cargarIcono(String nombre, int ancho, int alto) {
+    String base = System.getProperty("user.dir");
+
+    ImageIcon icono = new ImageIcon(base + "\\" + nombre);
+
+    Image img = icono.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+
+    return new ImageIcon(img);
+}
+private void cargarIconos() {
+    icono_voto.setIcon(cargarIcono("voto.png", 100, 100));
+    icono_info.setIcon(cargarIcono("info.png", 100, 100));
+    icono_perfil.setIcon(cargarIcono("usuario.png", 100, 100));
+}
 }
