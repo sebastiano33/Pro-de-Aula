@@ -12,14 +12,21 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class VentanaCaptura extends JFrame {
-
+    private JFrame ventanaAnterior;
+    private String nombre;
     private VideoCapture camera;
     private JLabel labelCamara;
     private Mat frame;
     private String nombrePersona;
+    private registro registroPadre;
 
-    public VentanaCaptura(String nombrePersona) {
+    public VentanaCaptura(String nombrePersona, registro aThis) {
         this.nombrePersona = nombrePersona;
+         this.nombre = nombre;
+        this.ventanaAnterior = ventanaAnterior;
+        this.registroPadre = aThis;
+            
+         OpenCVLoader.loadLibrary();    
 
         setTitle("Capturar foto - " + nombrePersona);
         setSize(600, 500);
@@ -71,8 +78,18 @@ public class VentanaCaptura extends JFrame {
             String ruta = carpeta.getAbsolutePath() + "/foto_" + numero + ".png";
 
             Imgcodecs.imwrite(ruta, frame);
+            Imgcodecs.imwrite(ruta, frame);
+
+            registroPadre.rostroCapturadoExitosamente();
 
             JOptionPane.showMessageDialog(this, "Foto guardada:\n" + ruta);
+            javax.swing.JOptionPane.showMessageDialog(this, "Foto guardada correctamente");
+
+// cerrar cámara
+camera.release();
+
+// cerrar solo la ventana de cámara
+this.dispose();
 
         } catch (Exception e) {
             e.printStackTrace();

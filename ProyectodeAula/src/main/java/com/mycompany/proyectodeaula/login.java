@@ -22,7 +22,6 @@ public class login extends javax.swing.JFrame {
     public login() {
         initComponents();
         cargarIconos();
-        bt_face.addActionListener(e -> abrirFaceID());
     }
 
     /**
@@ -195,7 +194,7 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_salida
 
     private void bt_inicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_inicioActionPerformed
-        abrirFaceID();
+        
     }//GEN-LAST:event_bt_inicioActionPerformed
 
     /**
@@ -261,21 +260,5 @@ private void cargarIconos() {
     icono_3.setIcon(cargarIcono("ojo(1).png", 32, 32));
     ima_label.setIcon(cargarIcono("bueno.png", 500, 720));
     
-}
-private void abrirFaceID() {
-    try {
-        System.load("C:\\opencv\\build\\java\\x64\\opencv_java4110.dll");
-    } catch (UnsatisfiedLinkError e) {
-        System.out.println("OpenCV ya cargado o error");
-    }
-
-    String nombre = caja_usuario.getText();
-
-    if (nombre.isEmpty() || nombre.equals("Usuario")) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Ingresa tu usuario primero");
-        return;
-    }
-
-    new VentanaCaptura(nombre).setVisible(true);
 }
 }

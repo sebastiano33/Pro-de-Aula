@@ -27,7 +27,7 @@ public class PanelBaseDatos extends JPanel {
     InputStream is = getClass().getResourceAsStream("/haarcascade_frontalface_default.xml");
 
     if (is == null) {
-        System.out.println("❌ No se encontró el XML");
+        System.out.println("No se encontró el XML");
         return;
     }
 
@@ -37,9 +37,9 @@ public class PanelBaseDatos extends JPanel {
     detector = new CascadeClassifier(temp.toString());
 
     if (detector.empty()) {
-        System.out.println("❌ Cascade no cargado");
+        System.out.println("Cascade no cargado");
     } else {
-        System.out.println("✅ Cascade cargado en PanelBaseDatos");
+        System.out.println("Cascade cargado en PanelBaseDatos");
     }
 
 } catch (Exception e) {

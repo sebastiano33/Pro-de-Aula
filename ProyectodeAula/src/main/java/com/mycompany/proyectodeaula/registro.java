@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import java.net.URL;
 
 public class registro extends javax.swing.JFrame {
+    private boolean rostroGuardado = false;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(registro.class.getName());
 
@@ -29,11 +30,13 @@ public class registro extends javax.swing.JFrame {
     public registro() {
         initFX(); 
         initComponents();
+        
         placeHolderJtext.addPlaceholder(caja_nombre, "Nombre completo");
         placeHolderJtext.addPlaceholder(caja_correo, "Correo electrónico");
         placeHolderJtext.addPlaceholder(caja_usuario, "Usuario");
          placeHolderJtext.addPlaceholderPassword(caja_contraseña, "Contraseña");
         placeHolderJtext.addPlaceholder(caja_codigo, "Código");
+        
         
         
         
@@ -154,7 +157,7 @@ public class registro extends javax.swing.JFrame {
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 721, Short.MAX_VALUE)
+            .addGap(0, 705, Short.MAX_VALUE)
         );
 
         panel_formulario.setOpaque(false);
@@ -334,8 +337,8 @@ public class registro extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(3, 3, 3)
-                    .addComponent(jLayeredPane1)
-                    .addGap(3, 3, 3)))
+                    .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(19, Short.MAX_VALUE)))
         );
 
         pack();
@@ -381,7 +384,27 @@ public class registro extends javax.swing.JFrame {
     }//GEN-LAST:event_vali
 
     private void bt_registrofaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_registrofaceActionPerformed
-        // TODO add your handling code here:
+        String nombre = caja_usuario.getText();
+
+    if (nombre.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Ingresa tu nombre primero");
+        return;
+    }
+    if (rostroGuardado) {
+        JOptionPane.showMessageDialog(this, "Ya has guardado tu rostro");
+        return;
+    }
+
+    
+    if (nombre.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Ingresa tu nombre primero");
+        return;
+    }
+
+    new VentanaCaptura(nombre, this).setVisible(true);
+    
+    
+    
        
     }//GEN-LAST:event_bt_registrofaceActionPerformed
 
@@ -451,7 +474,9 @@ public class registro extends javax.swing.JFrame {
             ps.executeUpdate();
 
             JOptionPane.showMessageDialog(this, "Se ha registrado de manera exitosa");
-
+            login ventanaLogin = new login();
+ventanaLogin.setVisible(true);
+this.dispose();
             // Sirve para limpiar los campos
             caja_nombre.setText("");
             caja_correo.setText("");
@@ -569,5 +594,22 @@ private void initFX() {
     } catch (IllegalStateException e) {
       
     }
+}
+private void bt_faceActionPerformed(java.awt.event.ActionEvent evt) {
+    String nombre = caja_usuario.getText();
+
+    if (nombre.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Ingresa tu nombre primero");
+        return;
+    }
+
+    new VentanaCaptura(nombre, this).setVisible(true);
+    this.setVisible(false);
+}
+public void rostroCapturadoExitosamente() {
+    rostroGuardado = true;
+    bt_registroface.setEnabled(false);
+
+    JOptionPane.showMessageDialog(this, "Rostro guardado correctamente");
 }
 }

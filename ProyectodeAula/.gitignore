@@ -1,0 +1,10 @@
+# Archivos de NetBeans y Maven generados
+/target/
+nbactions.xml
+nb-configuration.xml
+*.orig
+*.log
+
+# NO ignorar los archivos de OpenCV (deben subir al repo)
+!lib/opencv-4110.jar
+!src/main/resources/libs/opencv/windows/x64/opencv_java4110.dll
