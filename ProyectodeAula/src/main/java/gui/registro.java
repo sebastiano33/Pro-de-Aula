@@ -1,8 +1,9 @@
-package com.mycompany.proyectodeaula;
+package gui;
 
-import com.mycompany.proyectodeaula.Conexion;
-import com.mycompany.proyectodeaula.placeHolderJtext;
-import com.mycompany.proyectodeaula.Validación;
+import gui.login;
+import config.Conexion;
+import util.placeHolderJtext;
+import util.Validación;
 import java.awt.BorderLayout;
 import java.io.File;
 import javafx.application.Platform;
@@ -15,7 +16,9 @@ import javafx.scene.media.MediaView;
 import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.Desktop;
-import com.mycompany.proyectodeaula.Validación;
+import util.Validación;
+import util.Validación;
+import util.placeHolderJtext;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;

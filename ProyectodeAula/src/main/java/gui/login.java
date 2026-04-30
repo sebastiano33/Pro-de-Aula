@@ -1,5 +1,4 @@
-package com.mycompany.proyectodeaula;
-
+package gui;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -9,9 +8,12 @@ package com.mycompany.proyectodeaula;
  *
  * @author DISTRIEMPAQUES
  */
+import dao.UsuarioBD;
+import dao.UsuarioBD;
 import java.awt.Color;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 public class login extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(login.class.getName());
@@ -194,7 +196,32 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_salida
 
     private void bt_inicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_inicioActionPerformed
+        //Boton de Login
         
+        String usuario = caja_usuario.getText().trim();
+    String password = new String(caja_contraseña.getPassword()).trim();
+
+    if (usuario.isEmpty() || password.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Complete todos los campos");
+        return;
+    }
+
+    if (password.length() < 4) {
+        JOptionPane.showMessageDialog(null, "La contraseña es muy corta");
+        return;
+    }
+
+    UsuarioBD dao = new UsuarioBD();
+
+    if (dao.loginUsuario(usuario, password)) {
+        JOptionPane.showMessageDialog(null, "Login exitoso");
+
+        new menuPrincipal().setVisible(true);
+        this.dispose();
+
+    } else {
+        JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+    }
     }//GEN-LAST:event_bt_inicioActionPerformed
 
     /**

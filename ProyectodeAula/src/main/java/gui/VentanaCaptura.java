@@ -1,5 +1,7 @@
-package com.mycompany.proyectodeaula;
+package gui;
 
+import gui.registro;
+import util.OpenCVLoader;
 import org.opencv.core.*;
 import org.opencv.videoio.VideoCapture;
 import org.opencv.imgcodecs.Imgcodecs;

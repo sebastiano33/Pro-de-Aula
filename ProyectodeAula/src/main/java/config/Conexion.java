@@ -1,4 +1,4 @@
-package com.mycompany.proyectodeaula;
+package config;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

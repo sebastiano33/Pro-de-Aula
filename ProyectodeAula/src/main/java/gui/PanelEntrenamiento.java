@@ -1,4 +1,4 @@
-package com.mycompany.proyectodeaula;
+package gui;
 
 import javax.swing.*;
 

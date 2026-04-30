@@ -1,4 +1,4 @@
-package com.mycompany.proyectodeaula;
+package util;
 
 import java.io.*;
 import java.nio.file.*;

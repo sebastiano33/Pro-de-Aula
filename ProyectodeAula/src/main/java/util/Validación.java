@@ -1,4 +1,4 @@
-package com.mycompany.proyectodeaula;
+package util;
 
 
 public class Validación {
