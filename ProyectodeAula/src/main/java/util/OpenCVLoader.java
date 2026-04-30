@@ -44,4 +44,5 @@ public class OpenCVLoader {
             throw new RuntimeException("Error al cargar OpenCV: " + e.getMessage(), e);
         }
     }
+     
 }

@@ -23,9 +23,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 import java.net.URL;
+import java.util.List;
+import org.opencv.core.Mat;
 
 public class registro extends javax.swing.JFrame {
     private boolean rostroGuardado = false;
+    private java.util.List<Mat> fotosCapturadas;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(registro.class.getName());
 
@@ -387,24 +390,21 @@ public class registro extends javax.swing.JFrame {
     }//GEN-LAST:event_vali
 
     private void bt_registrofaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_registrofaceActionPerformed
-        String nombre = caja_usuario.getText();
+        String gmail = caja_usuario.getText().trim(); // 👈 usa el gmail
 
-    if (nombre.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Ingresa tu nombre primero");
+    if (gmail.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Ingresa tu correo primero");
         return;
     }
+
     if (rostroGuardado) {
-        JOptionPane.showMessageDialog(this, "Ya has guardado tu rostro");
+        JOptionPane.showMessageDialog(this, "Ya has registrado tu rostro");
         return;
     }
 
-    
-    if (nombre.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Ingresa tu nombre primero");
-        return;
-    }
+    // abrir ventana de captura
+    new VentanaCaptura(gmail, this).setVisible(true);
 
-    new VentanaCaptura(nombre, this).setVisible(true);
     
     
     
@@ -491,6 +491,19 @@ this.dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
+        
+File carpeta = new File("dataset/" + correo);
+if (!carpeta.exists()) carpeta.mkdirs();
+
+int i = 1;
+for (Mat img : fotosCapturadas) {
+    String ruta = carpeta.getAbsolutePath() + "/foto_" + i + ".png";
+    org.opencv.imgcodecs.Imgcodecs.imwrite(ruta, img);
+    i++;
+}
+
+JOptionPane.showMessageDialog(this, "Usuario registrado con rostro ✅");
+        
     }//GEN-LAST:event_bt_registroActionPerformed
 
     private void terminos(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_terminos
@@ -614,5 +627,8 @@ public void rostroCapturadoExitosamente() {
     bt_registroface.setEnabled(false);
 
     JOptionPane.showMessageDialog(this, "Rostro guardado correctamente");
+}
+public void setFotosCapturadas(List<Mat> fotos) {
+    this.fotosCapturadas = fotos;
 }
 }

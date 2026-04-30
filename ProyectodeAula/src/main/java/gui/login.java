@@ -12,8 +12,11 @@ import dao.UsuarioBD;
 import dao.UsuarioBD;
 import java.awt.Color;
 import java.awt.Image;
+import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import org.opencv.core.Mat;
+import org.opencv.imgcodecs.Imgcodecs;
 public class login extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(login.class.getName());
@@ -22,6 +25,7 @@ public class login extends javax.swing.JFrame {
      * Creates new form login
      */
     public login() {
+        
         initComponents();
         cargarIconos();
     }
@@ -151,6 +155,11 @@ public class login extends javax.swing.JFrame {
         bt_face.setForeground(new java.awt.Color(24, 90, 219));
         bt_face.setText("Face Id");
         bt_face.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(24, 90, 219), 2, true));
+        bt_face.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_faceActionPerformed(evt);
+            }
+        });
         pa_info.add(bt_face, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 570, 280, 70));
 
         txt_info3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -223,6 +232,18 @@ public class login extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
     }
     }//GEN-LAST:event_bt_inicioActionPerformed
+
+    private void bt_faceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_faceActionPerformed
+       
+     String correo = JOptionPane.showInputDialog(null, "Ingresa tu correo:");
+
+if (correo == null || correo.trim().isEmpty()) {
+    JOptionPane.showMessageDialog(null, "Debes ingresar un correo");
+    return;
+}
+
+new VentanaLoginFace(correo.trim()).setVisible(true);
+    }//GEN-LAST:event_bt_faceActionPerformed
 
     /**
      * @param args the command line arguments

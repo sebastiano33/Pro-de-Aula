@@ -8,47 +8,36 @@ import org.opencv.imgproc.Imgproc;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.net.URL;
+import java.io.File;
 
 public class PanelReconocimiento extends JPanel {
 
     private VideoCapture camera;
     private CascadeClassifier detector;
+    private Mat frame;
 
     public PanelReconocimiento() {
 
-        // ================= CARGAR CASCADE =================
-        try {
-            URL resource = getClass().getResource("/haarcascade_frontalface_default.xml");
+        util.OpenCVLoader.loadLibrary();
 
-            if (resource == null) {
-                System.out.println("❌ No se encontró el XML en resources");
-                return;
-            }
-
-            String ruta = resource.toURI().getPath();
-            detector = new CascadeClassifier("C:/opencv2/haarcascade_frontalface_default.xml");
-
-            if (detector.empty()) {
-                System.out.println("❌ ERROR: Cascade no cargado");
-            } else {
-                System.out.println("✅ Cascade cargado correctamente");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // ================= ABRIR CÁMARA =================
         camera = new VideoCapture(0);
+        frame = new Mat();
 
-        if (!camera.isOpened()) {
-            System.out.println("❌ ERROR: No se pudo abrir la cámara");
+        
+        String ruta = System.getProperty("user.dir") + "/haarcascade_frontalface_default.xml";
+        System.out.println("Ruta XML: " + ruta);
+
+        detector = new CascadeClassifier(ruta);
+
+        if (detector.empty()) {
+            System.out.println("No se cargó el clasificador");
+            JOptionPane.showMessageDialog(this, "Error cargando el XML de reconocimiento facial");
+            return;
         } else {
-            System.out.println("✅ Cámara iniciada");
+            System.out.println("Clasificador cargado correctamente");
         }
 
-        // ================= TIMER =================
+        
         Timer timer = new Timer(30, e -> repaint());
         timer.start();
     }
@@ -57,28 +46,75 @@ public class PanelReconocimiento extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        if (camera == null || detector == null) return;
+        if (camera == null || !camera.isOpened()) return;
+        if (detector.empty()) return;
 
-        Mat frame = new Mat();
+        camera.read(frame);
 
-        // Leer frame
-        if (!camera.read(frame) || frame.empty()) {
-            return;
+        if (!frame.empty()) {
+
+            Mat gris = new Mat();
+            Imgproc.cvtColor(frame, gris, Imgproc.COLOR_BGR2GRAY);
+
+            MatOfRect rostros = new MatOfRect();
+            detector.detectMultiScale(gris, rostros);
+
+            for (Rect rect : rostros.toArray()) {
+                Imgproc.rectangle(frame, rect, new Scalar(0, 255, 0), 2);
+            }
+
+            BufferedImage img = matToBufferedImage(frame);
+            g.drawImage(img, 0, 0, getWidth(), getHeight(), null);
         }
+    }
 
-        // Detectar rostros
+    
+    public Mat obtenerRostro() {
+
+        if (frame.empty() || detector.empty()) return null;
+
+        Mat gris = new Mat();
+        Imgproc.cvtColor(frame, gris, Imgproc.COLOR_BGR2GRAY);
+
         MatOfRect rostros = new MatOfRect();
-        detector.detectMultiScale(frame, rostros);
+        detector.detectMultiScale(gris, rostros);
 
-        // Dibujar rectángulos
-        for (Rect rect : rostros.toArray()) {
-            Imgproc.rectangle(frame, rect, new Scalar(0, 255, 0), 2);
+        Rect[] faces = rostros.toArray();
+
+        if (faces.length > 0) {
+            Rect rect = faces[0];
+
+            Mat rostro = new Mat(gris, rect);
+            Imgproc.resize(rostro, rostro, new Size(200, 200));
+
+            return rostro;
         }
 
-        // Convertir a imagen
-        Image img = org.opencv.highgui.HighGui.toBufferedImage(frame);
+        return null;
+    }
 
-        // Dibujar en pantalla
-        g.drawImage(img, 0, 0, getWidth(), getHeight(), null);
+    
+    private BufferedImage matToBufferedImage(Mat mat) {
+        int type = BufferedImage.TYPE_BYTE_GRAY;
+
+        if (mat.channels() > 1) {
+            type = BufferedImage.TYPE_3BYTE_BGR;
+        }
+
+        byte[] b = new byte[(int) (mat.total() * mat.channels())];
+        mat.get(0, 0, b);
+
+        BufferedImage img = new BufferedImage(mat.cols(), mat.rows(), type);
+        img.getRaster().setDataElements(0, 0, mat.cols(), mat.rows(), b);
+
+        return img;
+    }
+
+    
+    public void cerrarCamara() {
+        if (camera != null && camera.isOpened()) {
+            camera.release();
+            System.out.println("Cámara liberada");
+        }
     }
 }

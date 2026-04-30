@@ -1,121 +1,98 @@
 package gui;
 
-import gui.registro;
-import util.OpenCVLoader;
-import org.opencv.core.*;
-import org.opencv.videoio.VideoCapture;
-import org.opencv.imgcodecs.Imgcodecs;
-
+import org.opencv.core.Mat;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VentanaCaptura extends JFrame {
-    private JFrame ventanaAnterior;
-    private String nombre;
-    private VideoCapture camera;
-    private JLabel labelCamara;
-    private Mat frame;
-    private String nombrePersona;
+
+    private List<Mat> fotosCapturadas = new ArrayList<>();
+    private int contador = 0;
+
+    private PanelReconocimiento panelCamara;
+    private String gmail;
     private registro registroPadre;
 
-    public VentanaCaptura(String nombrePersona, registro aThis) {
-        this.nombrePersona = nombrePersona;
-         this.nombre = nombre;
-        this.ventanaAnterior = ventanaAnterior;
-        this.registroPadre = aThis;
-            
-         OpenCVLoader.loadLibrary();    
+    public VentanaCaptura(String gmail, registro registroPadre) {
 
-        setTitle("Capturar foto - " + nombrePersona);
-        setSize(600, 500);
+        util.OpenCVLoader.loadLibrary();
+
+        this.gmail = gmail;
+        this.registroPadre = registroPadre;
+
+        setTitle("Captura facial - " + gmail);
+        setSize(900, 500);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-        labelCamara = new JLabel();
-        add(labelCamara, BorderLayout.CENTER);
+        panelCamara = new PanelReconocimiento();
+        add(panelCamara, BorderLayout.CENTER);
 
-        JButton btnCapturar = new JButton("Capturar foto");
-        btnCapturar.setBackground(new Color(25,118,210));
-        btnCapturar.setForeground(Color.WHITE);
-        add(btnCapturar, BorderLayout.SOUTH);
+        JPanel panelDerecha = new JPanel();
+        panelDerecha.setPreferredSize(new Dimension(250, 0));
+        panelDerecha.setLayout(new GridLayout(7, 1));
 
-        camera = new VideoCapture(0);
-        frame = new Mat();
+        panelDerecha.add(new JLabel("INSTRUCCIONES", SwingConstants.CENTER));
+        panelDerecha.add(new JLabel("• Mira al frente"));
+        panelDerecha.add(new JLabel("• Buena iluminación"));
+        panelDerecha.add(new JLabel("• Sin gorra/lentes"));
+        panelDerecha.add(new JLabel("• Solo una persona"));
+        panelDerecha.add(new JLabel("• Cara centrada"));
+        panelDerecha.add(new JLabel("• No moverse"));
 
-        Timer timer = new Timer(30, e -> {
-            if (camera.isOpened()) {
-                camera.read(frame);
-                if (!frame.empty()) {
-                    labelCamara.setIcon(new ImageIcon(matToBufferedImage(frame)));
-                }
+        add(panelDerecha, BorderLayout.EAST);
+
+        JPanel panelBotones = new JPanel();
+
+        JButton btnCapturar = new JButton("Capturar (12)");
+        JButton btnFinalizar = new JButton("Finalizar");
+
+        panelBotones.add(btnCapturar);
+        panelBotones.add(btnFinalizar);
+
+        add(panelBotones, BorderLayout.SOUTH);
+
+        btnCapturar.addActionListener(e -> capturarAutomatico());
+
+        btnFinalizar.addActionListener(e -> {
+            if (fotosCapturadas.size() < 12) {
+                JOptionPane.showMessageDialog(this, "Debes capturar las 12 fotos");
+                return;
             }
-        });
-        timer.start();
 
-        btnCapturar.addActionListener(e -> {
-            guardarFoto();
-            camera.release();
+            registroPadre.setFotosCapturadas(fotosCapturadas);
+
+            JOptionPane.showMessageDialog(this, "Fotos listas ✅");
             dispose();
         });
     }
 
-    // 💾 GUARDAR POR PERSONA
-    private void guardarFoto() {
-        try {
-            // Carpeta por persona
-            File carpeta = new File("dataset/" + nombrePersona);
+    private void capturarAutomatico() {
 
-            if (!carpeta.exists()) {
-                carpeta.mkdirs();
+        new Thread(() -> {
+
+            while (contador < 12) {
+
+                Mat rostro = panelCamara.obtenerRostro();
+
+                if (rostro != null) {
+                    fotosCapturadas.add(rostro.clone());
+                    contador++;
+                    System.out.println("Foto " + contador);
+                }
+
+                try {
+                    Thread.sleep(500);
+                } catch (Exception e) {}
             }
 
-            // Contador automático
-            int numero = carpeta.list().length + 1;
+            SwingUtilities.invokeLater(() ->
+                JOptionPane.showMessageDialog(this, "12 fotos capturadas ✅")
+            );
 
-            String ruta = carpeta.getAbsolutePath() + "/foto_" + numero + ".png";
-
-            Imgcodecs.imwrite(ruta, frame);
-            Imgcodecs.imwrite(ruta, frame);
-
-            registroPadre.rostroCapturadoExitosamente();
-
-            JOptionPane.showMessageDialog(this, "Foto guardada:\n" + ruta);
-            javax.swing.JOptionPane.showMessageDialog(this, "Foto guardada correctamente");
-
-// cerrar cámara
-camera.release();
-
-// cerrar solo la ventana de cámara
-this.dispose();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private BufferedImage matToBufferedImage(Mat mat) {
-        int type = BufferedImage.TYPE_BYTE_GRAY;
-
-        if (mat.channels() > 1) {
-            type = BufferedImage.TYPE_3BYTE_BGR;
-        }
-
-        int bufferSize = mat.channels() * mat.cols() * mat.rows();
-        byte[] b = new byte[bufferSize];
-        mat.get(0, 0, b);
-
-        BufferedImage image = new BufferedImage(mat.cols(), mat.rows(), type);
-        final byte[] targetPixels = ((java.awt.image.DataBufferByte)
-                image.getRaster().getDataBuffer()).getData();
-
-        System.arraycopy(b, 0, targetPixels, 0, b.length);
-
-        return image;
+        }).start();
     }
 }
-
