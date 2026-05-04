@@ -20,11 +20,15 @@ public class menuPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form menuPrincipal
      */
-    public menuPrincipal() {
+    public menuPrincipal(String nombreRecibido) {
         initComponents();
         cargarIconos();
         this.setSize(1280, 720);
 this.setLocationRelativeTo(null);
+
+    lbl_bienvenida.setText("¡Bienvenido, " + nombreRecibido + "!");
+    lbl_nomreS.setText(nombreRecibido);
+   
     }
 
     /**
@@ -56,6 +60,9 @@ this.setLocationRelativeTo(null);
         label_nombre1 = new javax.swing.JLabel();
         label_rol = new javax.swing.JLabel();
         label_cerrarS = new javax.swing.JLabel();
+        icono_cerrar = new javax.swing.JLabel();
+        lbl_nomreS = new javax.swing.JLabel();
+        lbl_rol = new javax.swing.JLabel();
         tarjeta_1 = new javax.swing.JPanel() {
             @Override
             protected void paintComponent(java.awt.Graphics g) {
@@ -91,6 +98,7 @@ this.setLocationRelativeTo(null);
             }
         };
         icono_voto = new javax.swing.JLabel();
+        ícono_entrarv = new javax.swing.JLabel();
         tarjeta_2 = new javax.swing.JPanel() {
             @Override
             protected void paintComponent(java.awt.Graphics g) {
@@ -126,6 +134,8 @@ this.setLocationRelativeTo(null);
             }
         };
         icono_info = new javax.swing.JLabel();
+        icono_entrare = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         tarjeta_3 = new javax.swing.JPanel() {
             @Override
             protected void paintComponent(java.awt.Graphics g) {
@@ -161,6 +171,50 @@ this.setLocationRelativeTo(null);
             }
         };
         icono_perfil = new javax.swing.JLabel();
+        icono_entrarp = new javax.swing.JLabel();
+        panel_footer = new javax.swing.JPanel() {
+            @Override
+            protected void paintComponent(java.awt.Graphics g) {
+                super.paintComponent(g);
+                java.awt.Graphics2D g2 = (java.awt.Graphics2D) g;
+                g2.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING, java.awt.RenderingHints.VALUE_ANTIALIAS_ON);
+
+                // Color azul pálido de la imagen
+                g2.setColor(new java.awt.Color(240, 247, 255)); 
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 25, 25);
+
+                // Borde sutil
+                g2.setColor(new java.awt.Color(220, 230, 240));
+                g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 25, 25);
+            }
+        };
+        panel_circulo = new javax.swing.JPanel() {
+            @Override
+            protected void paintComponent(java.awt.Graphics g) {
+                super.paintComponent(g);
+                java.awt.Graphics2D g2 = (java.awt.Graphics2D) g;
+                g2.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING, java.awt.RenderingHints.VALUE_ANTIALIAS_ON);
+
+                // Color azul muy clarito (como el de la referencia)
+                g2.setColor(new java.awt.Color(232, 240, 254)); 
+
+                // Dibujamos el círculo (un óvalo con mismo ancho y alto)
+                g2.fillOval(0, 0, getWidth(), getHeight());
+            }
+        };
+        txt_estado = new javax.swing.JLabel();
+        txt_info14 = new javax.swing.JLabel();
+        txt_info15 = new javax.swing.JLabel();
+        separador = new javax.swing.JSeparator();
+        panel_circulo2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        panel_circulo3 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        lbl_bienvenida = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        panel_decoracion = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1280, 720));
@@ -199,7 +253,16 @@ this.setLocationRelativeTo(null);
         label_cerrarS.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         label_cerrarS.setForeground(new java.awt.Color(255, 255, 255));
         label_cerrarS.setText("Cerrar sesión");
-        panel_azul.add(label_cerrarS, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 30, 80, 40));
+        panel_azul.add(label_cerrarS, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 20, 80, 40));
+        panel_azul.add(icono_cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 0, 100, 90));
+
+        lbl_nomreS.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lbl_nomreS.setForeground(new java.awt.Color(255, 255, 255));
+        panel_azul.add(lbl_nomreS, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 10, 180, 30));
+
+        lbl_rol.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_rol.setText("\n");
+        panel_azul.add(lbl_rol, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 40, 110, 30));
 
         panel_fondo.add(panel_azul, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -230,14 +293,17 @@ this.setLocationRelativeTo(null);
         circulo1.setLayout(circulo1Layout);
         circulo1Layout.setHorizontalGroup(
             circulo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(icono_voto, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+            .addComponent(icono_voto, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         circulo1Layout.setVerticalGroup(
             circulo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(icono_voto, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+            .addComponent(icono_voto, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         tarjeta_1.add(circulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, 100, 100));
+
+        ícono_entrarv.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tarjeta_1.add(ícono_entrarv, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 280, 100, 100));
 
         panel_fondo.add(tarjeta_1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, 320, 380));
 
@@ -263,6 +329,8 @@ this.setLocationRelativeTo(null);
 
         circulo2.setOpaque(false);
 
+        icono_info.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout circulo2Layout = new javax.swing.GroupLayout(circulo2);
         circulo2.setLayout(circulo2Layout);
         circulo2Layout.setHorizontalGroup(
@@ -279,6 +347,24 @@ this.setLocationRelativeTo(null);
         );
 
         tarjeta_2.add(circulo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, 100, 100));
+
+        icono_entrare.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tarjeta_2.add(icono_entrare, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 280, 100, 100));
+
+        jPanel2.setBackground(new java.awt.Color(0, 74, 173));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 120, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 4, Short.MAX_VALUE)
+        );
+
+        tarjeta_2.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 190, 120, 4));
 
         panel_fondo.add(tarjeta_2, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 200, 320, 380));
 
@@ -317,7 +403,125 @@ this.setLocationRelativeTo(null);
 
         tarjeta_3.add(circulo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, 100, 100));
 
+        icono_entrarp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tarjeta_3.add(icono_entrarp, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 280, 100, 100));
+
         panel_fondo.add(tarjeta_3, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 200, 320, 380));
+
+        panel_footer.setOpaque(false);
+        panel_footer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panel_circulo.setOpaque(false);
+
+        javax.swing.GroupLayout panel_circuloLayout = new javax.swing.GroupLayout(panel_circulo);
+        panel_circulo.setLayout(panel_circuloLayout);
+        panel_circuloLayout.setHorizontalGroup(
+            panel_circuloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 60, Short.MAX_VALUE)
+        );
+        panel_circuloLayout.setVerticalGroup(
+            panel_circuloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 60, Short.MAX_VALUE)
+        );
+
+        panel_footer.add(panel_circulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 60, 60));
+
+        txt_estado.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txt_estado.setForeground(new java.awt.Color(0, 74, 173));
+        txt_estado.setText("Estado actual");
+        panel_footer.add(txt_estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 25, -1, -1));
+
+        txt_info14.setForeground(new java.awt.Color(102, 102, 102));
+        txt_info14.setText("Aquí puedes ver un resumen ");
+        panel_footer.add(txt_info14, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 45, -1, -1));
+
+        txt_info15.setForeground(new java.awt.Color(102, 102, 102));
+        txt_info15.setText("de tu actividad en el sistema.");
+        panel_footer.add(txt_info15, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 58, -1, -1));
+
+        separador.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        panel_footer.add(separador, new org.netbeans.lib.awtextra.AbsoluteConstraints(345, 20, 20, 60));
+
+        panel_circulo2.setOpaque(false);
+
+        javax.swing.GroupLayout panel_circulo2Layout = new javax.swing.GroupLayout(panel_circulo2);
+        panel_circulo2.setLayout(panel_circulo2Layout);
+        panel_circulo2Layout.setHorizontalGroup(
+            panel_circulo2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 60, Short.MAX_VALUE)
+        );
+        panel_circulo2Layout.setVerticalGroup(
+            panel_circulo2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 60, Short.MAX_VALUE)
+        );
+
+        panel_footer.add(panel_circulo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 20, 60, 60));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 204));
+        jLabel1.setText("Estado de votación");
+        panel_footer.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 25, -1, -1));
+
+        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        panel_footer.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 20, 30, 60));
+
+        panel_circulo3.setOpaque(false);
+
+        javax.swing.GroupLayout panel_circulo3Layout = new javax.swing.GroupLayout(panel_circulo3);
+        panel_circulo3.setLayout(panel_circulo3Layout);
+        panel_circulo3Layout.setHorizontalGroup(
+            panel_circulo3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 60, Short.MAX_VALUE)
+        );
+        panel_circulo3Layout.setVerticalGroup(
+            panel_circulo3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 60, Short.MAX_VALUE)
+        );
+
+        panel_footer.add(panel_circulo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 20, 60, 60));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 204));
+        jLabel2.setText("Proximas votaciones");
+        panel_footer.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 25, -1, -1));
+
+        panel_fondo.add(panel_footer, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 600, 1040, 100));
+
+        lbl_bienvenida.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lbl_bienvenida.setText("¡Bienvenido!, ");
+        panel_fondo.add(lbl_bienvenida, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 120, -1, -1));
+
+        jLabel3.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel3.setText("Selecciona una opción para continuar");
+        panel_fondo.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 155, 210, -1));
+
+        panel_decoracion.setBackground(new java.awt.Color(0, 74, 173));
+
+        javax.swing.GroupLayout panel_decoracionLayout = new javax.swing.GroupLayout(panel_decoracion);
+        panel_decoracion.setLayout(panel_decoracionLayout);
+        panel_decoracionLayout.setHorizontalGroup(
+            panel_decoracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 120, Short.MAX_VALUE)
+        );
+        panel_decoracionLayout.setVerticalGroup(
+            panel_decoracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 4, Short.MAX_VALUE)
+        );
+
+        panel_fondo.add(panel_decoracion, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 180, 120, 4));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 80, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 80, Short.MAX_VALUE)
+        );
+
+        panel_fondo.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 110, 80, 80));
 
         getContentPane().add(panel_fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -346,28 +550,49 @@ this.setLocationRelativeTo(null);
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new menuPrincipal().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> {new menuPrincipal("Usuario de Prueba").setVisible(true);  });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel circulo1;
     private javax.swing.JPanel circulo2;
     private javax.swing.JPanel circulo3;
+    private javax.swing.JLabel icono_cerrar;
+    private javax.swing.JLabel icono_entrare;
+    private javax.swing.JLabel icono_entrarp;
     private javax.swing.JLabel icono_info;
     private javax.swing.JLabel icono_perfil;
     private javax.swing.JLabel icono_voto;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel label_cerrarS;
     private javax.swing.JLabel label_nombre1;
     private javax.swing.JLabel label_rol;
+    private javax.swing.JLabel lbl_bienvenida;
+    private javax.swing.JLabel lbl_nomreS;
+    private javax.swing.JLabel lbl_rol;
     private javax.swing.JPanel panel_azul;
+    private javax.swing.JPanel panel_circulo;
+    private javax.swing.JPanel panel_circulo2;
+    private javax.swing.JPanel panel_circulo3;
+    private javax.swing.JPanel panel_decoracion;
     private javax.swing.JPanel panel_fondo;
+    private javax.swing.JPanel panel_footer;
+    private javax.swing.JSeparator separador;
     private javax.swing.JPanel tarjeta_1;
     private javax.swing.JPanel tarjeta_2;
     private javax.swing.JPanel tarjeta_3;
+    private javax.swing.JLabel txt_estado;
     private javax.swing.JLabel txt_info;
     private javax.swing.JLabel txt_info1;
     private javax.swing.JLabel txt_info10;
     private javax.swing.JLabel txt_info11;
+    private javax.swing.JLabel txt_info14;
+    private javax.swing.JLabel txt_info15;
     private javax.swing.JLabel txt_info3;
     private javax.swing.JLabel txt_info4;
     private javax.swing.JLabel txt_info5;
@@ -375,6 +600,7 @@ this.setLocationRelativeTo(null);
     private javax.swing.JLabel txt_info7;
     private javax.swing.JLabel txt_info8;
     private javax.swing.JLabel txt_info9;
+    private javax.swing.JLabel ícono_entrarv;
     // End of variables declaration//GEN-END:variables
 
 private ImageIcon cargarIcono(String nombre, int ancho, int alto) {
@@ -390,5 +616,10 @@ private void cargarIconos() {
     icono_voto.setIcon(cargarIcono("voto.png", 100, 100));
     icono_info.setIcon(cargarIcono("info.png", 100, 100));
     icono_perfil.setIcon(cargarIcono("usuario.png", 100, 100));
+    ícono_entrarv.setIcon(cargarIcono("user blanco (2).png", 100, 100));
+    icono_entrare.setIcon(cargarIcono("user blanco (2).png", 100, 100));
+    icono_entrarp.setIcon(cargarIcono("user blanco (2).png", 100, 100));
+     icono_cerrar.setIcon(cargarIcono("user blanco (1).png", 100, 100));
+
 }
 }

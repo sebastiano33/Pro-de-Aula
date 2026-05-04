@@ -10,11 +10,12 @@ import java.awt.*;
 import java.io.File;
 
 public class VentanaLoginFace extends JFrame {
-
+    private String nombreParaMenu;
     private VideoCapture camera;
     private Mat frame;
 
-    public VentanaLoginFace(String correo) {
+    public VentanaLoginFace(String correo, String nombre) {
+        this.nombreParaMenu = nombre;
 
         util.OpenCVLoader.loadLibrary();
 
@@ -60,7 +61,7 @@ public class VentanaLoginFace extends JFrame {
 
                         JOptionPane.showMessageDialog(this, "Acceso permitido");
 
-                        new menuPrincipal().setVisible(true);
+                        new menuPrincipal(nombreParaMenu).setVisible(true);
                         return;
                     }
                 }

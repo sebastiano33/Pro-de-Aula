@@ -225,7 +225,8 @@ public class login extends javax.swing.JFrame {
     if (dao.loginUsuario(usuario, password)) {
         JOptionPane.showMessageDialog(null, "Login exitoso");
 
-        new menuPrincipal().setVisible(true);
+        menuPrincipal menu = new menuPrincipal(usuario);
+        menu.setVisible(true);
         this.dispose();
 
     } else {
@@ -234,7 +235,12 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_inicioActionPerformed
 
     private void bt_faceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_faceActionPerformed
-       
+       String nombre = JOptionPane.showInputDialog(null, "Ingresa tu nombre de usuario:");
+
+    if (nombre == null || nombre.trim().isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Debes ingresar tu nombre");
+        return;
+    }
      String correo = JOptionPane.showInputDialog(null, "Ingresa tu correo:");
 
 if (correo == null || correo.trim().isEmpty()) {
@@ -242,7 +248,7 @@ if (correo == null || correo.trim().isEmpty()) {
     return;
 }
 
-new VentanaLoginFace(correo.trim()).setVisible(true);
+new VentanaLoginFace(correo.trim(), nombre.trim()).setVisible(true);
     }//GEN-LAST:event_bt_faceActionPerformed
 
     /**
