@@ -11,10 +11,12 @@ import java.io.File;
 
 public class VentanaLoginFace extends JFrame {
     private String nombreParaMenu;
+    private int idUsuario;
     private VideoCapture camera;
     private Mat frame;
 
-    public VentanaLoginFace(String correo, String nombre) {
+    public VentanaLoginFace(int idUsuario, String correo, String nombre) {
+        this.idUsuario = idUsuario;
         this.nombreParaMenu = nombre;
 
         util.OpenCVLoader.loadLibrary();
@@ -39,32 +41,39 @@ public class VentanaLoginFace extends JFrame {
 
             if (!frame.empty()) {
 
-                File carpeta = new File("dataset/" + correo);
+                String base = System.getProperty("user.dir");
+                String correoLimpio = correo.trim().toLowerCase();
 
-                if (!carpeta.exists() || carpeta.listFiles() == null) {
+                File carpeta = new File(base + "/dataset/" + correoLimpio);
+
+                System.out.println("Buscando en: " + carpeta.getAbsolutePath());
+
+                File[] archivos = carpeta.listFiles();
+
+                if (!carpeta.exists() || archivos == null || archivos.length == 0) {
                     JOptionPane.showMessageDialog(this, "No hay datos faciales para este usuario");
-                    return;
-                }
+                return;
+}
 
-                for (File imgFile : carpeta.listFiles()) {
+                for (File imgFile : archivos) {
 
-                    Mat imgGuardada = Imgcodecs.imread(imgFile.getAbsolutePath());
+                Mat imgGuardada = Imgcodecs.imread(imgFile.getAbsolutePath());
 
-                    double resultado = ComparadorRostros.comparar(frame, imgGuardada);
+                double resultado = ComparadorRostros.comparar(frame, imgGuardada);
 
-                    System.out.println("Comparación: " + resultado);
+                System.out.println("Comparación: " + resultado);
 
-                    if (resultado < 5000000) {
+                if (resultado < 5000000) {
 
-                        camera.release();
-                        dispose();
+                    camera.release();
+                    dispose();
 
-                        JOptionPane.showMessageDialog(this, "Acceso permitido");
+                JOptionPane.showMessageDialog(this, "Acceso permitido");
 
-                        new menuPrincipal(nombreParaMenu).setVisible(true);
-                        return;
-                    }
-                }
+                new menuPrincipal(idUsuario, nombreParaMenu).setVisible(true);
+                return;
+    }
+}
             }
         });
 

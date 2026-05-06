@@ -9,7 +9,6 @@ package gui;
  * @author DISTRIEMPAQUES
  */
 import dao.UsuarioBD;
-import dao.UsuarioBD;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
@@ -25,7 +24,6 @@ public class login extends javax.swing.JFrame {
      * Creates new form login
      */
     public login() {
-        
         initComponents();
         cargarIconos();
     }
@@ -207,48 +205,65 @@ public class login extends javax.swing.JFrame {
     private void bt_inicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_inicioActionPerformed
         //Boton de Login
         
-        String usuario = caja_usuario.getText().trim();
+    String usuario = caja_usuario.getText().trim();
     String password = new String(caja_contraseña.getPassword()).trim();
 
     if (usuario.isEmpty() || password.isEmpty()) {
         JOptionPane.showMessageDialog(null, "Complete todos los campos");
-        return;
+    return;
     }
 
     if (password.length() < 4) {
         JOptionPane.showMessageDialog(null, "La contraseña es muy corta");
-        return;
+    return;
     }
 
     UsuarioBD dao = new UsuarioBD();
+    int idUsuario = dao.loginUsuario(usuario, password);
 
-    if (dao.loginUsuario(usuario, password)) {
+    if (idUsuario != -1) {
         JOptionPane.showMessageDialog(null, "Login exitoso");
 
-        menuPrincipal menu = new menuPrincipal(usuario);
-        menu.setVisible(true);
-        this.dispose();
+    menuPrincipal menu = new menuPrincipal(idUsuario, usuario);
+    menu.setVisible(true);
+    this.dispose();
 
-    } else {
-        JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
-    }
+} else {
+    JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+}
     }//GEN-LAST:event_bt_inicioActionPerformed
 
     private void bt_faceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_faceActionPerformed
-       String nombre = JOptionPane.showInputDialog(null, "Ingresa tu nombre de usuario:");
+    String nombre = JOptionPane.showInputDialog(null, "Ingresa tu nombre de usuario:");
 
     if (nombre == null || nombre.trim().isEmpty()) {
         JOptionPane.showMessageDialog(null, "Debes ingresar tu nombre");
         return;
     }
-     String correo = JOptionPane.showInputDialog(null, "Ingresa tu correo:");
 
-if (correo == null || correo.trim().isEmpty()) {
-    JOptionPane.showMessageDialog(null, "Debes ingresar un correo");
-    return;
-}
+    String correo = JOptionPane.showInputDialog(null, "Ingresa tu correo:");
 
-new VentanaLoginFace(correo.trim(), nombre.trim()).setVisible(true);
+    if (correo == null || correo.trim().isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Debes ingresar un correo");
+        return;
+    }
+
+    nombre = nombre.trim();
+    correo = correo.trim().toLowerCase();
+
+    UsuarioBD dao = new UsuarioBD();
+
+    // 🔥 DEBUG (para verificar)
+    System.out.println("Buscando usuario con correo: " + correo);
+
+    int idUsuario = dao.obtenerIdPorCorreo(correo);
+
+    if (idUsuario != -1) {
+        new VentanaLoginFace(idUsuario, correo, nombre).setVisible(true);
+    } else {
+        JOptionPane.showMessageDialog(null, "Usuario no encontrado");
+    }
+       
     }//GEN-LAST:event_bt_faceActionPerformed
 
     /**
