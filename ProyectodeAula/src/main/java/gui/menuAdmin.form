@@ -57,6 +57,13 @@
         <Property name="useNullLayout" type="boolean" value="false"/>
       </Layout>
       <SubComponents>
+        <Component class="gui.PanelGestionVotaciones" name="panelGestionVotaciones1">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="180" y="70" width="900" height="580"/>
+            </Constraint>
+          </Constraints>
+        </Component>
         <Container class="javax.swing.JPanel" name="panel_azul">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -222,12 +229,12 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ad" green="4a" red="0" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="VOTAR"/>
+                <Property name="text" type="java.lang.String" value="Gesti&#xf3;n de votaciones."/>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="110" y="170" width="-1" height="-1"/>
+                  <AbsoluteConstraints x="40" y="170" width="-1" height="-1"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -236,11 +243,11 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Participa en las votaciones disponibles "/>
+                <Property name="text" type="java.lang.String" value="Crea, edita, activa o desactiva elecciones"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="40" y="200" width="250" height="30"/>
+                  <AbsoluteConstraints x="40" y="200" width="260" height="30"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -250,7 +257,7 @@
                   <Font name="Segoe UI" size="14" style="0"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="y elige tu opci&#xf3;n."/>
+                <Property name="text" type="java.lang.String" value="y configura sus parametros."/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -294,9 +301,13 @@
             <Component class="javax.swing.JLabel" name="&#xed;cono_entrarv">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
+                <Property name="opaque" type="boolean" value="true"/>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="voto"/>
+                <EventHandler event="mouseMoved" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="red"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="click"/>
+                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="entrada"/>
+                <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="salida"/>
               </Events>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -335,11 +346,11 @@
                   <Color blue="ad" green="4a" red="0" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Estado de votaci&#xf3;n"/>
+                <Property name="text" type="java.lang.String" value="Reportes y resultados."/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="40" y="170" width="240" height="30"/>
+                  <AbsoluteConstraints x="20" y="170" width="280" height="30"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -349,7 +360,7 @@
                   <Font name="Segoe UI" size="14" style="0"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Verifica que ya has votado y consulta"/>
+                <Property name="text" type="java.lang.String" value="Visualiza resultados, genera reportes"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -363,11 +374,11 @@
                   <Font name="Segoe UI" size="14" style="0"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="las votaciones disponibles."/>
+                <Property name="text" type="java.lang.String" value="y exporta informaci&#xf3;n de eleeciones"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="80" y="220" width="180" height="-1"/>
+                  <AbsoluteConstraints x="50" y="220" width="230" height="-1"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -413,6 +424,9 @@
             <Component class="javax.swing.JLabel" name="icono_entrare">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
+                <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                  <Color id="Cursor de Mano"/>
+                </Property>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -420,31 +434,6 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Container class="javax.swing.JPanel" name="jPanel2">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ad" green="4a" red="0" type="rgb"/>
-                </Property>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="580" y="190" width="120" height="4"/>
-                </Constraint>
-              </Constraints>
-
-              <Layout>
-                <DimensionLayout dim="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="120" max="32767" attributes="0"/>
-                  </Group>
-                </DimensionLayout>
-                <DimensionLayout dim="1">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="4" max="32767" attributes="0"/>
-                  </Group>
-                </DimensionLayout>
-              </Layout>
-            </Container>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="tarjeta_3">
@@ -476,11 +465,11 @@
                   <Color blue="ad" green="4a" red="0" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Ver perfil"/>
+                <Property name="text" type="java.lang.String" value="C. del sistema"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="100" y="170" width="140" height="30"/>
+                  <AbsoluteConstraints x="80" y="170" width="190" height="30"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -494,7 +483,7 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="60" y="200" width="-1" height="-1"/>
+                  <AbsoluteConstraints x="60" y="200" width="-1" height="20"/>
                 </Constraint>
               </Constraints>
             </Component>
@@ -544,6 +533,9 @@
             <Component class="javax.swing.JLabel" name="icono_entrarp">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
+                <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                  <Color id="Cursor de Mano"/>
+                </Property>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -728,7 +720,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="cc" green="0" red="0" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Proximas votaciones"/>
+                <Property name="text" type="java.lang.String" value="Fecha y hora"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -789,6 +781,31 @@
             </DimensionLayout>
           </Layout>
         </Container>
+        <Container class="javax.swing.JPanel" name="jPanel2">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ad" green="4a" red="0" type="rgb"/>
+            </Property>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="580" y="190" width="120" height="4"/>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <EmptySpace min="0" pref="120" max="32767" attributes="0"/>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <EmptySpace min="0" pref="4" max="32767" attributes="0"/>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+        </Container>
         <Container class="javax.swing.JPanel" name="jPanel1">
           <Properties>
             <Property name="opaque" type="boolean" value="false"/>
@@ -808,26 +825,6 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <EmptySpace min="0" pref="80" max="32767" attributes="0"/>
-              </Group>
-            </DimensionLayout>
-          </Layout>
-        </Container>
-        <Container class="javax.swing.JPanel" name="panelCentral">
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="50" y="110" width="1190" height="570"/>
-            </Constraint>
-          </Constraints>
-
-          <Layout>
-            <DimensionLayout dim="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="1190" max="32767" attributes="0"/>
-              </Group>
-            </DimensionLayout>
-            <DimensionLayout dim="1">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="570" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>

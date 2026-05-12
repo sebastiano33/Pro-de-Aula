@@ -8,11 +8,16 @@ package gui;
  *
  * @author DISTRIEMPAQUES
  */
+import config.Conexion;
 import dao.UsuarioBD;
 import dao.UsuarioBD;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import org.opencv.core.Mat;
@@ -208,30 +213,35 @@ public class login extends javax.swing.JFrame {
         //Boton de Login
         
         String usuario = caja_usuario.getText().trim();
-    String password = new String(caja_contraseña.getPassword()).trim();
+        String password = new String(caja_contraseña.getPassword()).trim();
 
-    if (usuario.isEmpty() || password.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "Complete todos los campos");
-        return;
-    }
+        if (usuario.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Complete todos los campos");
+            return;
+        }
 
-    if (password.length() < 4) {
-        JOptionPane.showMessageDialog(null, "La contraseña es muy corta");
-        return;
-    }
+        UsuarioBD dao = new UsuarioBD();
+// Llamamos al nuevo método que nos dice quién es el que entra
+        String rol = dao.obtenerRol(usuario, password);
 
-    UsuarioBD dao = new UsuarioBD();
+        if (rol != null) {
+            JOptionPane.showMessageDialog(null, "¡Bienvenido " + usuario + "!");
 
-    if (dao.loginUsuario(usuario, password)) {
-        JOptionPane.showMessageDialog(null, "Login exitoso");
+            if (rol.equalsIgnoreCase("admin")) {
+                // ABRIR MENÚ DE ADMINISTRADOR
+                menuAdmin mAdmin = new menuAdmin(usuario);
+                mAdmin.setVisible(true);
+            } else {
+                // ABRIR MENÚ DE VOTANTE (El que ya tenías)
+                menuPrincipal mPrincipal = new menuPrincipal(usuario);
+                mPrincipal.setVisible(true);
+            }
 
-        menuPrincipal menu = new menuPrincipal(usuario);
-        menu.setVisible(true);
-        this.dispose();
+            this.dispose(); // Cerrar el login
 
-    } else {
-        JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
-    }
+        } else {
+            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+        }
     }//GEN-LAST:event_bt_inicioActionPerformed
 
     private void bt_faceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_faceActionPerformed

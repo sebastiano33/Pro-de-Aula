@@ -390,7 +390,7 @@ public class registro extends javax.swing.JFrame {
     }//GEN-LAST:event_vali
 
     private void bt_registrofaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_registrofaceActionPerformed
-        String gmail = caja_usuario.getText().trim(); // 👈 usa el gmail
+        String gmail = caja_usuario.getText().trim();
 
     if (gmail.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Ingresa tu correo primero");
@@ -405,10 +405,6 @@ public class registro extends javax.swing.JFrame {
     // abrir ventana de captura
     new VentanaCaptura(gmail, this).setVisible(true);
 
-    
-    
-    
-       
     }//GEN-LAST:event_bt_registrofaceActionPerformed
 
     private void bt_registroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_registroActionPerformed
