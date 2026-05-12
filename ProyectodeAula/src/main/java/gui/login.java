@@ -10,7 +10,6 @@ package gui;
  */
 import config.Conexion;
 import dao.UsuarioBD;
-import dao.UsuarioBD;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
@@ -30,7 +29,6 @@ public class login extends javax.swing.JFrame {
      * Creates new form login
      */
     public login() {
-        
         initComponents();
         cargarIconos();
     }
@@ -212,53 +210,82 @@ public class login extends javax.swing.JFrame {
     private void bt_inicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_inicioActionPerformed
         //Boton de Login
         
+
         String usuario = caja_usuario.getText().trim();
-        String password = new String(caja_contraseña.getPassword()).trim();
+    String password = new String(caja_contraseña.getPassword()).trim();
 
-        if (usuario.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Complete todos los campos");
-            return;
-        }
+    if (usuario.isEmpty() || password.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Complete todos los campos");
+        return;
+    }
 
-        UsuarioBD dao = new UsuarioBD();
-// Llamamos al nuevo método que nos dice quién es el que entra
-        String rol = dao.obtenerRol(usuario, password);
+    if (password.length() < 4) {
+        JOptionPane.showMessageDialog(null, "La contraseña es muy corta");
+        return;
+    }
 
-        if (rol != null) {
-            JOptionPane.showMessageDialog(null, "¡Bienvenido " + usuario + "!");
+    // 2. Comunicación con la base de datos
+    UsuarioBD dao = new UsuarioBD();
+    
+    // Usaremos obtenerRol para manejar la redirección de menús
+    String rol = dao.obtenerRol(usuario, password);
 
-            if (rol.equalsIgnoreCase("admin")) {
-                // ABRIR MENÚ DE ADMINISTRADOR
-                menuAdmin mAdmin = new menuAdmin(usuario);
-                mAdmin.setVisible(true);
-            } else {
-                // ABRIR MENÚ DE VOTANTE (El que ya tenías)
-                menuPrincipal mPrincipal = new menuPrincipal(usuario);
-                mPrincipal.setVisible(true);
-            }
+    if (rol != null) {
+        JOptionPane.showMessageDialog(null, "¡Bienvenido " + usuario + "!");
 
-            this.dispose(); // Cerrar el login
-
+        // 3. Redirección según el cargo (Admin o Votante)
+        if (rol.equalsIgnoreCase("admin")) {
+            // Si es administrador, abrimos su menú especial
+            menuAdmin mAdmin = new menuAdmin(usuario);
+            mAdmin.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+            // Si es votante, abrimos el menú principal de votación
+            // Nota: Si necesitas el ID del usuario para votar, 
+            // asegúrate que tu método en UsuarioBD también lo recupere
+            menuPrincipal mPrincipal = new menuPrincipal(usuario);
+            mPrincipal.setVisible(true);
         }
+
+        this.dispose(); // Cerramos la ventana de Login
+
+    } else {
+        // Si el rol es null, los datos son incorrectos
+        JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+    }
+
     }//GEN-LAST:event_bt_inicioActionPerformed
 
     private void bt_faceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_faceActionPerformed
-       String nombre = JOptionPane.showInputDialog(null, "Ingresa tu nombre de usuario:");
+    String nombre = JOptionPane.showInputDialog(null, "Ingresa tu nombre de usuario:");
 
     if (nombre == null || nombre.trim().isEmpty()) {
         JOptionPane.showMessageDialog(null, "Debes ingresar tu nombre");
         return;
     }
-     String correo = JOptionPane.showInputDialog(null, "Ingresa tu correo:");
 
-if (correo == null || correo.trim().isEmpty()) {
-    JOptionPane.showMessageDialog(null, "Debes ingresar un correo");
-    return;
-}
+    String correo = JOptionPane.showInputDialog(null, "Ingresa tu correo:");
 
-new VentanaLoginFace(correo.trim(), nombre.trim()).setVisible(true);
+    if (correo == null || correo.trim().isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Debes ingresar un correo");
+        return;
+    }
+
+    nombre = nombre.trim();
+    correo = correo.trim().toLowerCase();
+
+    UsuarioBD dao = new UsuarioBD();
+
+    // 🔥 DEBUG (para verificar)
+    System.out.println("Buscando usuario con correo: " + correo);
+
+    int idUsuario = dao.obtenerIdPorCorreo(correo);
+
+    if (idUsuario != -1) {
+        new VentanaLoginFace(idUsuario, correo, nombre).setVisible(true);
+    } else {
+        JOptionPane.showMessageDialog(null, "Usuario no encontrado");
+    }
+       
     }//GEN-LAST:event_bt_faceActionPerformed
 
     /**

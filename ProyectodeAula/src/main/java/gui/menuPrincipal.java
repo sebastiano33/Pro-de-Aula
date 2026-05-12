@@ -27,15 +27,32 @@ public class menuPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form menuPrincipal
      */
-    public menuPrincipal(String nombreRecibido) {
-        initComponents();
-        cargarIconos();
-        this.setSize(1280, 720);
-this.setLocationRelativeTo(null);
+    private int idUsuario;
+
+public menuPrincipal(int idUsuario, String nombreRecibido) {
+    this.idUsuario = idUsuario;
+
+    initComponents();
+    cargarIconos();
+    this.setSize(1280, 720);
+    this.setLocationRelativeTo(null);
 
     lbl_bienvenida.setText("¡Bienvenido, " + nombreRecibido + "!");
     lbl_nomreS.setText(nombreRecibido);
+}
+ public menuPrincipal(String nombreRecibido) {
+
+        initComponents();
+        cargarIconos();
+
+        this.setSize(1280, 720);
+        this.setLocationRelativeTo(null);
+
+        lbl_bienvenida.setText("¡Bienvenido, " + nombreRecibido + "!");
+        lbl_nomreS.setText(nombreRecibido);
     }
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -584,7 +601,7 @@ this.setLocationRelativeTo(null);
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {new menuPrincipal("Usuario de Prueba").setVisible(true);  });
+        java.awt.EventQueue.invokeLater(() -> {new menuPrincipal(1, "Usuario de Prueba").setVisible(true);  });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
