@@ -231,27 +231,20 @@ public class login extends javax.swing.JFrame {
     String rol = dao.obtenerRol(usuario, password);
 
     if (rol != null) {
-        JOptionPane.showMessageDialog(null, "¡Bienvenido " + usuario + "!");
-
-        // 3. Redirección según el cargo (Admin o Votante)
-        if (rol.equalsIgnoreCase("admin")) {
-            // Si es administrador, abrimos su menú especial
-            menuAdmin mAdmin = new menuAdmin(usuario);
-            mAdmin.setVisible(true);
-        } else {
-            // Si es votante, abrimos el menú principal de votación
-            // Nota: Si necesitas el ID del usuario para votar, 
-            // asegúrate que tu método en UsuarioBD también lo recupere
-            menuPrincipal mPrincipal = new menuPrincipal(usuario);
-            mPrincipal.setVisible(true);
-        }
-
-        this.dispose(); // Cerramos la ventana de Login
-
+    JOptionPane.showMessageDialog(null, "¡Bienvenido " + usuario + "!");
+    if (rol.equalsIgnoreCase("admin")) {
+        menuAdmin mAdmin = new menuAdmin(usuario);
+        mAdmin.setVisible(true);
     } else {
-        // Si el rol es null, los datos son incorrectos
-        JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+        // Obtener el ID del usuario para pasarlo al menuPrincipal
+        int idUsuario = dao.obtenerIdPorUsuario(usuario, password);
+        menuPrincipal mPrincipal = new menuPrincipal(idUsuario, usuario);
+        mPrincipal.setVisible(true);
     }
+    this.dispose();
+} else {
+    JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+}
 
     }//GEN-LAST:event_bt_inicioActionPerformed
 
@@ -275,7 +268,7 @@ public class login extends javax.swing.JFrame {
 
     UsuarioBD dao = new UsuarioBD();
 
-    // 🔥 DEBUG (para verificar)
+    
     System.out.println("Buscando usuario con correo: " + correo);
 
     int idUsuario = dao.obtenerIdPorCorreo(correo);

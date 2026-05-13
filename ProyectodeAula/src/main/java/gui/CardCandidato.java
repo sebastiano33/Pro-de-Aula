@@ -3,32 +3,129 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package gui;
-
-
+ 
+import dao.VotoBD;
 import java.awt.Image;
+import java.io.IOException;
 import javax.swing.ImageIcon;
-
-
-
-/**
- *
- * @author DISTRIEMPAQUES
- */
+ 
 public class CardCandidato extends javax.swing.JPanel {
-
-    /**
-     * Creates new form CardCandidato
-     */private int idCandidato;
-     
-    public CardCandidato(String nombre, String carrera, String foto, int aInt) {
+ 
+    private int idCandidato;
+    private int idEleccion; // ← necesario para guardar el voto correctamente
+ 
+    public CardCandidato(String nombre, String carrera, String foto, int idCandidato, int idEleccion) {
         initComponents();
         this.idCandidato = idCandidato;
+        this.idEleccion = idEleccion;
+ 
         lbl_nombre.setText(nombre);
         lbl_carrera.setText(carrera);
+ 
         ImageIcon icon = new ImageIcon(foto);
         Image img = icon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
         lbl_foto.setIcon(new ImageIcon(img));
+ 
+        btn_votar.addActionListener(e -> votar());
     }
+ 
+    private void votar() {
+        btn_votar.setEnabled(false);
+        btn_votar.setText("Verificando...");
+ 
+        util.OpenCVLoader.loadLibrary();
+ 
+        new Thread(() -> {
+            try {
+                org.opencv.videoio.VideoCapture camera = new org.opencv.videoio.VideoCapture(0);
+ 
+                if (!camera.isOpened()) {
+                    javax.swing.SwingUtilities.invokeLater(() -> {
+                        javax.swing.JOptionPane.showMessageDialog(null, "No se pudo abrir la cámara");
+                        btn_votar.setEnabled(true);
+                        btn_votar.setText("Votar");
+                    });
+                    return;
+                }
+ 
+                java.io.InputStream xmlStream = getClass().getResourceAsStream("/haarcascade_frontalface_default.xml");
+                java.nio.file.Path xmlTemp = java.nio.file.Files.createTempFile("haarcascade_", ".xml");
+                java.nio.file.Files.copy(xmlStream, xmlTemp, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+                xmlStream.close();
+ 
+                org.opencv.objdetect.CascadeClassifier detector =
+                        new org.opencv.objdetect.CascadeClassifier(xmlTemp.toAbsolutePath().toString());
+ 
+                org.opencv.core.Mat frame = new org.opencv.core.Mat();
+                org.opencv.core.Mat gray = new org.opencv.core.Mat();
+ 
+                long inicio = System.currentTimeMillis();
+                boolean permitido = false;
+                String mensajeError = "";
+ 
+                while (System.currentTimeMillis() - inicio < 3000) {
+                    camera.read(frame);
+                    if (frame.empty()) continue;
+ 
+                    org.opencv.imgproc.Imgproc.cvtColor(frame, gray, org.opencv.imgproc.Imgproc.COLOR_BGR2GRAY);
+                    org.opencv.core.MatOfRect rostros = new org.opencv.core.MatOfRect();
+                    detector.detectMultiScale(gray, rostros);
+ 
+                    int cantidad = rostros.toArray().length;
+                    if (cantidad == 1) {
+                        permitido = true;
+                        break;
+                    } else if (cantidad == 0) {
+                        mensajeError = "No se detectó ninguna persona frente a la cámara.";
+                    } else {
+                        mensajeError = "Solo puede haber una persona frente a la cámara.";
+                        permitido = false;
+                        break;
+                    }
+                }
+ 
+                camera.release();
+ 
+                if (!permitido && mensajeError.isEmpty()) {
+                    mensajeError = "No se detectó ninguna persona. Intente de nuevo.";
+                }
+ 
+                final boolean votoPermitido = permitido;
+                final String errorFinal = mensajeError;
+ 
+                javax.swing.SwingUtilities.invokeLater(() -> {
+                    if (votoPermitido) {
+    int idUsuario = util.SesionUsuario.getIdUsuario();
+    dao.VotoBD votoBD = new dao.VotoBD();
+
+    boolean registrado = votoBD.registrarVoto(idUsuario, idCandidato, idEleccion);
+
+    if (registrado) {
+        PanelGestionVotaciones.usuariosQueVotaron.add(idUsuario);
+        javax.swing.JOptionPane.showMessageDialog(null,
+            "✅ Voto registrado correctamente para el candidato #" + idCandidato);
+        btn_votar.setEnabled(false);
+        btn_votar.setText("✓ Votado");
+    } else {
+        javax.swing.JOptionPane.showMessageDialog(null,
+            "❌ Ya votaste en esta elección. No puedes votar dos veces.");
+        btn_votar.setEnabled(false);
+        btn_votar.setText("Ya votaste");
+    }
+}
+                });
+ 
+            } catch (IOException ex) {
+                System.getLogger(CardCandidato.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+        }).start();
+    }
+ 
+    
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">
+    
+
+
 
     
 
@@ -118,3 +215,4 @@ public class CardCandidato extends javax.swing.JPanel {
     private javax.swing.JLabel lbl_numero;
     // End of variables declaration//GEN-END:variables
 }
+

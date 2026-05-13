@@ -74,4 +74,20 @@ public class UsuarioBD {
     return id;
 
 }
+    public int obtenerIdPorUsuario(String usuario, String contrasena) {
+    try {
+        Connection con = Conexion.conectar();
+        String sql = "SELECT id FROM usuarios WHERE usuario = ? AND contrasena = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, usuario);
+        ps.setString(2, contrasena);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("id");
+        }
+    } catch (Exception e) {
+        System.out.println("Error obteniendo ID: " + e);
+    }
+    return -1;
+}
 }

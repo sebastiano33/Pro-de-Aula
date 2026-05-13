@@ -2,6 +2,7 @@ package gui;
 
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.Image;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,6 +32,7 @@ public class menuPrincipal extends javax.swing.JFrame {
 
 public menuPrincipal(int idUsuario, String nombreRecibido) {
     this.idUsuario = idUsuario;
+    util.SesionUsuario.setIdUsuario(idUsuario);
 
     initComponents();
     cargarIconos();
@@ -39,6 +41,20 @@ public menuPrincipal(int idUsuario, String nombreRecibido) {
 
     lbl_bienvenida.setText("¡Bienvenido, " + nombreRecibido + "!");
     lbl_nomreS.setText(nombreRecibido);
+    
+    btn_config = new javax.swing.JButton("⚙");
+btn_config.setFont(new java.awt.Font("Segoe UI", Font.PLAIN, 22));
+btn_config.setForeground(java.awt.Color.WHITE);
+btn_config.setBackground(new java.awt.Color(0, 74, 173));
+btn_config.setBorderPainted(false);
+btn_config.setFocusPainted(false);
+btn_config.setContentAreaFilled(false);
+btn_config.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+btn_config.setToolTipText("Mi perfil y configuración");
+btn_config.addActionListener(e -> abrirPerfil());
+panel_azul.add(btn_config,
+    new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 25, 40, 40));
+    
 }
  public menuPrincipal(String nombreRecibido) {
 
@@ -312,6 +328,11 @@ public menuPrincipal(int idUsuario, String nombreRecibido) {
         circulo1.setOpaque(false);
 
         icono_voto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        icono_voto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                icono_votoMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout circulo1Layout = new javax.swing.GroupLayout(circulo1);
         circulo1.setLayout(circulo1Layout);
@@ -579,6 +600,10 @@ public menuPrincipal(int idUsuario, String nombreRecibido) {
         mostrarPanel(panel);
     }//GEN-LAST:event_voto
 
+    private void icono_votoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icono_votoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_icono_votoMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -654,6 +679,7 @@ public menuPrincipal(int idUsuario, String nombreRecibido) {
     private javax.swing.JLabel txt_info9;
     private javax.swing.JLabel ícono_entrarv;
     // End of variables declaration//GEN-END:variables
+private javax.swing.JButton btn_config;
 
 private ImageIcon cargarIcono(String nombre, int ancho, int alto) {
     String base = System.getProperty("user.dir");
@@ -674,6 +700,16 @@ private void cargarIconos() {
      icono_cerrar.setIcon(cargarIcono("user blanco (1).png", 100, 100));
 
 }
+
+private void abrirPerfil() {
+    tarjeta_1.setVisible(false);
+    tarjeta_2.setVisible(false);
+    tarjeta_3.setVisible(false);
+    panel_footer.setVisible(false);
+    lbl_bienvenida.setVisible(false);
+    mostrarPanel(new gui.PanelPerfil());
+}
+
 public void mostrarPanel(JPanel panel) {
 
     panelCentral.removeAll();

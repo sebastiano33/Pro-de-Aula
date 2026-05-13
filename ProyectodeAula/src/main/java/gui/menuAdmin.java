@@ -23,16 +23,39 @@ public class menuAdmin extends javax.swing.JFrame {
      * Creates new form menuPrincipal
      */
     public menuAdmin(String nombreRecibido) {
-        initComponents();
-        panelGestionVotaciones1.setVisible(false);
-        ícono_entrarv.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        cargarIconos();
-        this.setSize(1280, 720);
-this.setLocationRelativeTo(null);
+    initComponents();                          // 1ro siempre
+
+// Crear panel resultados
+panelResultados1 = new gui.PanelResultados();
+
+
+
+panelResultados1.setVisible(false);
+
+panel_fondo.add(panelResultados1,
+    new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 70, 900, 580));
+
+icono_entrare.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+icono_entrare.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+icono_entrare.addMouseListener(new java.awt.event.MouseAdapter() {
+
+    public void mouseClicked(java.awt.event.MouseEvent evt) {
+        clickReportes(evt);
+    }
+});
+
+tarjeta_2.add(icono_entrare, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 280, 100, 100));
+    
+    panelGestionVotaciones1.setVisible(false);
+    ícono_entrarv.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    cargarIconos();
+    this.setSize(1280, 720);
+    this.setLocationRelativeTo(null);
 
     lbl_bienvenida.setText("¡Bienvenido, " + nombreRecibido + "!");
     lbl_nomreS.setText(nombreRecibido);
-    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -567,12 +590,31 @@ this.setLocationRelativeTo(null);
     }//GEN-LAST:event_red
 
     private void click(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_click
-        // TODO add your handling code here:
-        panelGestionVotaciones1.setVisible(true);
-        panelGestionVotaciones1.repaint();
-        panelGestionVotaciones1.revalidate();
-    }//GEN-LAST:event_click
+        
 
+    tarjeta_1.setVisible(false);
+    tarjeta_2.setVisible(false);
+    tarjeta_3.setVisible(false);
+    panel_footer.setVisible(false);
+
+    panelGestionVotaciones1.setVisible(true);
+
+    panelGestionVotaciones1.repaint();
+    panelGestionVotaciones1.revalidate();
+
+    }//GEN-LAST:event_click
+private void clickReportes(java.awt.event.MouseEvent evt) {
+
+    tarjeta_1.setVisible(false);
+    tarjeta_2.setVisible(false);
+    tarjeta_3.setVisible(false);
+    panel_footer.setVisible(false);
+
+    panelResultados1.setVisible(true);
+
+    panelResultados1.repaint();
+    panelResultados1.revalidate();
+}
     /**
      * @param args the command line arguments
      */
@@ -648,7 +690,7 @@ this.setLocationRelativeTo(null);
     private javax.swing.JLabel txt_info9;
     private javax.swing.JLabel ícono_entrarv;
     // End of variables declaration//GEN-END:variables
-
+private gui.PanelResultados panelResultados1;
 private ImageIcon cargarIcono(String nombre, int ancho, int alto) {
     String base = System.getProperty("user.dir");
 

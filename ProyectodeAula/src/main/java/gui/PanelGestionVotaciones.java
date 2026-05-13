@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package gui;
-
+import java.util.ArrayList;
 import config.Conexion;
 import java.awt.Color;
 import java.awt.Image;
@@ -23,12 +23,14 @@ import util.placeHolderJtext;
  */
 public class PanelGestionVotaciones extends javax.swing.JPanel {
     String rutaFoto = "";
+    public static ArrayList<Integer> usuariosQueVotaron = new ArrayList<>();
 
     /**
      * Creates new form PanelGestionVotaciones
      */
     public PanelGestionVotaciones() {
         initComponents();
+        
          placeHolderJtext.addPlaceholder(caja_nombre, "Nombre completo");
         placeHolderJtext.addPlaceholder(caja_titulo, "Titlo de la eleccion");
         placeHolderJtext.addPlaceholder(caja_descripcion, "UEscriba aquí la descripción de la elección");
@@ -532,4 +534,6 @@ chooser.setFileFilter(filtro);
     private gui.RoundedPanel roundedPanel4;
     private gui.RoundedPanel roundedPanel5;
     // End of variables declaration//GEN-END:variables
+
+    
 }
