@@ -390,7 +390,7 @@ public class registro extends javax.swing.JFrame {
     }//GEN-LAST:event_vali
 
     private void bt_registrofaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_registrofaceActionPerformed
-        String gmail = caja_usuario.getText().trim();
+        String gmail = caja_correo.getText().trim().toLowerCase();
 
     if (gmail.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Ingresa tu correo primero");
@@ -408,73 +408,90 @@ public class registro extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_registrofaceActionPerformed
 
     private void bt_registroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_registroActionPerformed
-        String nombre = caja_nombre.getText().trim();
-        String correo = caja_correo.getText().trim();
-        String usuario = caja_usuario.getText().trim();
-        String codigo = caja_codigo.getText().trim();
-        String pass = new String(caja_contraseña.getPassword());
+        
 
-        // Validar que no hayan campos vacios
-        if (nombre.isEmpty() || correo.isEmpty() || usuario.isEmpty() || codigo.isEmpty() || pass.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios");
+    String nombre = caja_nombre.getText().trim();
+    String correo = caja_correo.getText().trim().toLowerCase();
+    String usuario = caja_usuario.getText().trim();
+    String codigo = caja_codigo.getText().trim();
+    String pass = new String(caja_contraseña.getPassword());
+
+    if (nombre.isEmpty() || correo.isEmpty() || usuario.isEmpty() || codigo.isEmpty() || pass.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios");
         return;
-}
+    }
 
-        // Validaciones
-        if (!Validación.esNombreValido(nombre)) {
-            JOptionPane.showMessageDialog(this, "Nombre inválido");
-            caja_nombre.requestFocus();
+    if (!Validación.esNombreValido(nombre)) {
+        JOptionPane.showMessageDialog(this, "Nombre inválido");
+        caja_nombre.requestFocus();
         return;
-}
+    }
 
-        if (!Validación.esCorreoInstitucional(correo)) {
-            JOptionPane.showMessageDialog(this, "Correo institucional inválido");
-            caja_correo.requestFocus();
+    if (!Validación.esCorreoInstitucional(correo)) {
+        JOptionPane.showMessageDialog(this, "Correo institucional inválido");
+        caja_correo.requestFocus();
         return;
-}
+    }
 
-        if (!Validación.esUsuarioValido(usuario)) {
-            JOptionPane.showMessageDialog(this, "Usuario inválido");
-            caja_usuario.requestFocus();
+    if (!Validación.esUsuarioValido(usuario)) {
+        JOptionPane.showMessageDialog(this, "Usuario inválido");
+        caja_usuario.requestFocus();
         return;
-}
+    }
 
-        if (!Validación.esCodigoValido(codigo)) {
-            JOptionPane.showMessageDialog(this, "Código estudiantil inválido");
-            caja_codigo.requestFocus();
+    if (!Validación.esCodigoValido(codigo)) {
+        JOptionPane.showMessageDialog(this, "Código estudiantil inválido");
+        caja_codigo.requestFocus();
         return;
-}
+    }
 
-        if (!Validación.esPasswordValida(pass)) {
-            JOptionPane.showMessageDialog(this, "Contraseña inválida");
-            caja_contraseña.requestFocus();
+    if (!Validación.esPasswordValida(pass)) {
+        JOptionPane.showMessageDialog(this, "Contraseña inválida");
+        caja_contraseña.requestFocus();
         return;
-}
+    }
 
-        if (!check_terminos.isSelected()) {
-            JOptionPane.showMessageDialog(this, "Debe aceptar los términos y condiciones");
-            check_terminos.requestFocus();
+    if (!check_terminos.isSelected()) {
+        JOptionPane.showMessageDialog(this, "Debe aceptar los términos y condiciones");
+        check_terminos.requestFocus();
         return;
-}
+    }
 
-        //Insertar Datos en la BD  
-        try {
-            Connection con = Conexion.conectar();
+    try {
+        Connection con = Conexion.conectar();
+        String sql = "INSERT INTO usuarios (nombre_completo, correo, usuario, codigo_estudiantil, contrasena) VALUES (?, ?, ?, ?, ?)";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, nombre);
+        ps.setString(2, correo);
+        ps.setString(3, usuario);
+        ps.setString(4, codigo);
+        ps.setString(5, pass);
+        ps.executeUpdate();
 
-            String sql = "INSERT INTO usuarios (nombre_completo, correo, usuario, codigo_estudiantil, contrasena) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement ps = con.prepareStatement(sql);
+        // ✅ Guardar fotos dentro del try, donde 'correo' existe
+        if (fotosCapturadas != null && !fotosCapturadas.isEmpty()) {
+            File carpeta = new File(System.getProperty("user.dir") + "/dataset/" + correo);
+            if (!carpeta.exists()) carpeta.mkdirs();
 
-            ps.setString(1, nombre);
-            ps.setString(2, correo);
-            ps.setString(3, usuario);
-            ps.setString(4, codigo);
-            ps.setString(5, pass);
+            int i = 1;
+            for (Mat img : fotosCapturadas) {
+                String ruta = carpeta.getAbsolutePath() + "/foto_" + i + ".png";
+                org.opencv.imgcodecs.Imgcodecs.imwrite(ruta, img);
+                i++;
+            }
+            JOptionPane.showMessageDialog(this, "Usuario registrado con rostro ✅");
+        } else {
+            JOptionPane.showMessageDialog(this, "Se ha registrado de manera exitosa (sin rostro)");
+        }
 
-            ps.executeUpdate();
+        new login().setVisible(true);
+        this.dispose();
 
-            JOptionPane.showMessageDialog(this, "Se ha registrado de manera exitosa");
-            login ventanaLogin = new login();
-ventanaLogin.setVisible(true);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+    }
+
+
 this.dispose();
             // Sirve para limpiar los campos
             caja_nombre.setText("");
@@ -484,12 +501,16 @@ this.dispose();
             caja_contraseña.setText("");
             check_terminos.setSelected(false);
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
-        }
+       
+
         
-File carpeta = new File("dataset/" + correo);
-if (!carpeta.exists()) carpeta.mkdirs();
+
+
+
+if (fotosCapturadas != null && !fotosCapturadas.isEmpty()) {
+    File carpeta = new File("dataset/" + correo.trim().toLowerCase());
+    if (!carpeta.exists()) carpeta.mkdirs();
+
 
 int i = 1;
 for (Mat img : fotosCapturadas) {
@@ -497,11 +518,12 @@ for (Mat img : fotosCapturadas) {
     org.opencv.imgcodecs.Imgcodecs.imwrite(ruta, img);
     i++;
 }
+}
 
 JOptionPane.showMessageDialog(this, "Usuario registrado con rostro ✅");
         
     }//GEN-LAST:event_bt_registroActionPerformed
-
+    
     private void terminos(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_terminos
         // TODO add your handling code here:
         try {
