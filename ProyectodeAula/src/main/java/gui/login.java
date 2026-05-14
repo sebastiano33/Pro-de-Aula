@@ -249,33 +249,31 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_inicioActionPerformed
 
     private void bt_faceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_faceActionPerformed
-    String nombre = JOptionPane.showInputDialog(null, "Ingresa tu nombre de usuario:");
-
-    if (nombre == null || nombre.trim().isEmpty()) {
-        JOptionPane.showMessageDialog(null, "Debes ingresar tu nombre");
-        return;
-    }
-
     String correo = JOptionPane.showInputDialog(null, "Ingresa tu correo:");
 
     if (correo == null || correo.trim().isEmpty()) {
+
         JOptionPane.showMessageDialog(null, "Debes ingresar un correo");
+
         return;
     }
 
-    nombre = nombre.trim();
     correo = correo.trim().toLowerCase();
 
     UsuarioBD dao = new UsuarioBD();
 
-    
-    System.out.println("Buscando usuario con correo: " + correo);
-
     int idUsuario = dao.obtenerIdPorCorreo(correo);
 
     if (idUsuario != -1) {
+
+        String nombre = dao.obtenerNombrePorCorreo(correo);
+
         new VentanaLoginFace(idUsuario, correo, nombre).setVisible(true);
+
+        this.dispose();
+
     } else {
+
         JOptionPane.showMessageDialog(null, "Usuario no encontrado");
     }
        
