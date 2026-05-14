@@ -27,11 +27,13 @@ public class VentanaLoginFace extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+        
         PanelReconocimiento panel = new PanelReconocimiento();
         add(panel);
 
         setVisible(true);
 
+        
         Timer timer = new Timer(2000, e -> {
 
             
@@ -44,21 +46,28 @@ public class VentanaLoginFace extends JFrame {
             String base = System.getProperty("user.dir");
             String correoLimpio = correo.trim().toLowerCase();
 
-            File carpeta = new File(base + "/dataset/" + correoLimpio);
+            File carpeta = new File(
+                base + "/dataset/" + correoLimpio
+            );
 
-            System.out.println("Buscando en: " + carpeta.getAbsolutePath());
-
-            File[] archivos = carpeta.listFiles();
+            System.out.println(
+                "Buscando en: "
+                + carpeta.getAbsolutePath()
+            );
 
             
-            if (!carpeta.exists() || archivos == null || archivos.length == 0) {
+            if (!carpeta.exists()) {
 
-                panel.cerrarCamara();
+                System.out.println(
+                    "La carpeta no existe"
+                );
 
                 JOptionPane.showMessageDialog(
                     this,
                     "No existen datos faciales para este usuario"
                 );
+
+                panel.cerrarCamara();
 
                 dispose();
 
@@ -67,14 +76,26 @@ public class VentanaLoginFace extends JFrame {
                 return;
             }
 
+            File[] archivos = carpeta.listFiles();
+
+            
+            if (archivos == null || archivos.length == 0) {
+
+                System.out.println(
+                    "No hay imágenes guardadas"
+                );
+
+                procesando = false;
+                return;
+            }
+
             
             Mat rostroActual = panel.obtenerRostro();
 
             if (rostroActual == null) {
 
-                JOptionPane.showMessageDialog(
-                    this,
-                    "No se detectó ningún rostro"
+                System.out.println(
+                    "Esperando rostro..."
                 );
 
                 procesando = false;
@@ -84,6 +105,7 @@ public class VentanaLoginFace extends JFrame {
             
             boolean accesoPermitido = false;
 
+            
             for (File imgFile : archivos) {
 
                 Mat imgGuardada = Imgcodecs.imread(
@@ -95,12 +117,14 @@ public class VentanaLoginFace extends JFrame {
                     continue;
                 }
 
+                
                 Imgproc.resize(
                     imgGuardada,
                     imgGuardada,
                     new Size(200, 200)
                 );
 
+                
                 double resultado =
                     ComparadorRostros.comparar(
                         rostroActual,
@@ -108,7 +132,8 @@ public class VentanaLoginFace extends JFrame {
                     );
 
                 System.out.println(
-                    "Resultado REAL: " + resultado
+                    "Resultado REAL: "
+                    + resultado
                 );
 
                 
@@ -138,23 +163,21 @@ public class VentanaLoginFace extends JFrame {
 
             } else {
 
-                panel.cerrarCamara();
-
                 JOptionPane.showMessageDialog(
                     this,
-                    "Rostro incorrecto. Intenta nuevamente."
+                    "Rostro no reconocido"
                 );
+
+                panel.cerrarCamara();
 
                 dispose();
 
-                
                 new login().setVisible(true);
             }
 
         });
 
-        timer.setRepeats(false);
-
+        
         timer.start();
     }
 }
