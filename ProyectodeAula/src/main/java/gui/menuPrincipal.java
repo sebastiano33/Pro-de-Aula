@@ -31,30 +31,58 @@ public class menuPrincipal extends javax.swing.JFrame {
     private int idUsuario;
 
 public menuPrincipal(int idUsuario, String nombreRecibido) {
+
     this.idUsuario = idUsuario;
+
     util.SesionUsuario.setIdUsuario(idUsuario);
 
     initComponents();
+
     cargarIconos();
+    icono_entrarp.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+icono_entrarp.addMouseListener(new java.awt.event.MouseAdapter() {
+    @Override
+    public void mouseClicked(java.awt.event.MouseEvent evt) {
+        abrirPerfil();
+    }
+});
+
     this.setSize(1280, 720);
+
     this.setLocationRelativeTo(null);
 
-    lbl_bienvenida.setText("¡Bienvenido, " + nombreRecibido + "!");
+    lbl_bienvenida.setText(
+            "¡Bienvenido, " + nombreRecibido + "!"
+    );
+
     lbl_nomreS.setText(nombreRecibido);
+
     
-    btn_config = new javax.swing.JButton("⚙");
-btn_config.setFont(new java.awt.Font("Segoe UI", Font.PLAIN, 22));
-btn_config.setForeground(java.awt.Color.WHITE);
-btn_config.setBackground(new java.awt.Color(0, 74, 173));
-btn_config.setBorderPainted(false);
-btn_config.setFocusPainted(false);
-btn_config.setContentAreaFilled(false);
-btn_config.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-btn_config.setToolTipText("Mi perfil y configuración");
-btn_config.addActionListener(e -> abrirPerfil());
-panel_azul.add(btn_config,
-    new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 25, 40, 40));
     
+
+    
+     
+
+    // CLICK EN CERRAR SESIÓN
+    label_cerrarS.setCursor(
+            new java.awt.Cursor(
+                    java.awt.Cursor.HAND_CURSOR
+            )
+    );
+
+    label_cerrarS.addMouseListener(
+            new java.awt.event.MouseAdapter() {
+
+                @Override
+                public void mouseClicked(
+                        java.awt.event.MouseEvent evt
+                ) {
+
+                    cerrarSesion();
+                }
+            }
+    );
 }
  public menuPrincipal(String nombreRecibido) {
 
@@ -99,7 +127,6 @@ panel_azul.add(btn_config,
         label_nombre1 = new javax.swing.JLabel();
         label_rol = new javax.swing.JLabel();
         label_cerrarS = new javax.swing.JLabel();
-        icono_cerrar = new javax.swing.JLabel();
         lbl_nomreS = new javax.swing.JLabel();
         lbl_rol = new javax.swing.JLabel();
         tarjeta_1 = new javax.swing.JPanel() {
@@ -294,7 +321,6 @@ panel_azul.add(btn_config,
         label_cerrarS.setForeground(new java.awt.Color(255, 255, 255));
         label_cerrarS.setText("Cerrar sesión");
         panel_azul.add(label_cerrarS, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 20, 80, 40));
-        panel_azul.add(icono_cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 0, 100, 90));
 
         lbl_nomreS.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lbl_nomreS.setForeground(new java.awt.Color(255, 255, 255));
@@ -633,7 +659,6 @@ panel_azul.add(btn_config,
     private javax.swing.JPanel circulo1;
     private javax.swing.JPanel circulo2;
     private javax.swing.JPanel circulo3;
-    private javax.swing.JLabel icono_cerrar;
     private javax.swing.JLabel icono_entrare;
     private javax.swing.JLabel icono_entrarp;
     private javax.swing.JLabel icono_info;
@@ -679,7 +704,7 @@ panel_azul.add(btn_config,
     private javax.swing.JLabel txt_info9;
     private javax.swing.JLabel ícono_entrarv;
     // End of variables declaration//GEN-END:variables
-private javax.swing.JButton btn_config;
+
 
 private ImageIcon cargarIcono(String nombre, int ancho, int alto) {
     String base = System.getProperty("user.dir");
@@ -697,26 +722,75 @@ private void cargarIconos() {
     ícono_entrarv.setIcon(cargarIcono("user blanco (2).png", 100, 100));
     icono_entrare.setIcon(cargarIcono("user blanco (2).png", 100, 100));
     icono_entrarp.setIcon(cargarIcono("user blanco (2).png", 100, 100));
-     icono_cerrar.setIcon(cargarIcono("user blanco (1).png", 100, 100));
+    
 
 }
 
 private void abrirPerfil() {
+
     tarjeta_1.setVisible(false);
+
     tarjeta_2.setVisible(false);
+
     tarjeta_3.setVisible(false);
+
     panel_footer.setVisible(false);
+
     lbl_bienvenida.setVisible(false);
-    mostrarPanel(new gui.PanelPerfil());
+
+    jLabel3.setVisible(false);
+
+    panel_decoracion.setVisible(false);
+
+    mostrarPanel(new gui.PanelPerfil(this));
+}
+
+public void restaurarMenuPrincipal() {
+
+    panelCentral.removeAll();
+
+    tarjeta_1.setVisible(true);
+    tarjeta_2.setVisible(true);
+    tarjeta_3.setVisible(true);
+
+    panel_footer.setVisible(true);
+
+    lbl_bienvenida.setVisible(true);
+
+    panelCentral.revalidate();
+    panelCentral.repaint();
+}
+
+
+private void cerrarSesion() {
+
+    int opcion = JOptionPane.showConfirmDialog(
+            this,
+            "¿Deseas cerrar sesión?",
+            "Cerrar sesión",
+            JOptionPane.YES_NO_OPTION
+    );
+
+    if (opcion == JOptionPane.YES_OPTION) {
+
+        dispose();
+
+        new login().setVisible(true);
+    }
 }
 
 public void mostrarPanel(JPanel panel) {
 
     panelCentral.removeAll();
+
     panelCentral.setLayout(new BorderLayout());
+
     panelCentral.add(panel, BorderLayout.CENTER);
 
     panelCentral.revalidate();
+
     panelCentral.repaint();
 }
 }
+
+
