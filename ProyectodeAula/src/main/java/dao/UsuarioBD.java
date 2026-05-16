@@ -141,4 +141,33 @@ public class UsuarioBD {
 
         return -1;
     }
+    
+    public boolean actualizarContraseña(
+        int idUsuario,
+        String nuevaContraseña
+) {
+
+    try {
+
+        Connection con = Conexion.conectar();
+
+        String sql =
+                "UPDATE usuarios SET contrasena = ? WHERE id = ?";
+
+        PreparedStatement ps =
+                con.prepareStatement(sql);
+
+        ps.setString(1, nuevaContraseña);
+
+        ps.setInt(2, idUsuario);
+
+        return ps.executeUpdate() > 0;
+
+    } catch (Exception e) {
+
+        e.printStackTrace();
+
+        return false;
+    }
+}
 }

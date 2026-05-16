@@ -55,8 +55,7 @@ public class login extends javax.swing.JFrame {
         caja_usuario = new javax.swing.JTextField();
         icono_3 = new javax.swing.JLabel();
         caja_contraseña = new javax.swing.JPasswordField();
-        check_recordar = new javax.swing.JCheckBox();
-        label_contraseña = new javax.swing.JLabel();
+        label_olvidasteContraseña = new javax.swing.JLabel();
         bt_inicio = new javax.swing.JButton();
         bt_face = new javax.swing.JButton();
         txt_info3 = new javax.swing.JLabel();
@@ -127,13 +126,15 @@ public class login extends javax.swing.JFrame {
         caja_contraseña.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(24, 90, 219)));
         pa_info.add(caja_contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 310, 410, 70));
 
-        check_recordar.setText("Recuerdame");
-        pa_info.add(check_recordar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 410, -1, 30));
-
-        label_contraseña.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        label_contraseña.setForeground(new java.awt.Color(24, 90, 219));
-        label_contraseña.setText("¿Olvidaste tu contraseña?");
-        pa_info.add(label_contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(468, 410, 150, 30));
+        label_olvidasteContraseña.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        label_olvidasteContraseña.setForeground(new java.awt.Color(24, 90, 219));
+        label_olvidasteContraseña.setText("¿Olvidaste tu contraseña?");
+        label_olvidasteContraseña.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                label_olvidasteContraseñaMouseClicked(evt);
+            }
+        });
+        pa_info.add(label_olvidasteContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 410, 150, 30));
 
         bt_inicio.setBackground(new java.awt.Color(24, 90, 219));
         bt_inicio.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
@@ -173,7 +174,12 @@ public class login extends javax.swing.JFrame {
         label_registro.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         label_registro.setForeground(new java.awt.Color(24, 90, 219));
         label_registro.setText("Registrarme");
-        pa_info.add(label_registro, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 650, 150, -1));
+        label_registro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                label_registroMouseClicked(evt);
+            }
+        });
+        pa_info.add(label_registro, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 650, 90, -1));
         pa_info.add(icono_1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 220, 60, 70));
         pa_info.add(icono_2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 330, 60, 60));
 
@@ -279,6 +285,20 @@ public class login extends javax.swing.JFrame {
        
     }//GEN-LAST:event_bt_faceActionPerformed
 
+    private void label_registroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_label_registroMouseClicked
+        // Label para mandar a registro
+        
+        registro r = new registro();
+        r.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_label_registroMouseClicked
+
+    private void label_olvidasteContraseñaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_label_olvidasteContraseñaMouseClicked
+        // Label para cambiar contraseña
+        
+        recuperarContraseña();
+    }//GEN-LAST:event_label_olvidasteContraseñaMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -309,14 +329,13 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JButton bt_inicio;
     private javax.swing.JPasswordField caja_contraseña;
     private javax.swing.JTextField caja_usuario;
-    private javax.swing.JCheckBox check_recordar;
     private javax.swing.JLabel icono_1;
     private javax.swing.JLabel icono_2;
     private javax.swing.JLabel icono_3;
     private javax.swing.JLabel ima_label;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel label_contraseña;
+    private javax.swing.JLabel label_olvidasteContraseña;
     private javax.swing.JLabel label_registro;
     private javax.swing.JPanel pa_fondo;
     private javax.swing.JPanel pa_imagen;
@@ -342,5 +361,41 @@ private void cargarIconos() {
     icono_3.setIcon(cargarIcono("ojo(1).png", 32, 32));
     ima_label.setIcon(cargarIcono("bueno.png", 500, 720));
     
+}
+
+private void recuperarContraseña() {
+
+    String correo = JOptionPane.showInputDialog(
+            this,
+            "Ingresa tu correo:"
+    );
+
+    if (correo == null || correo.trim().isEmpty()) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Debes ingresar un correo"
+        );
+
+        return;
+    }
+
+    UsuarioBD dao = new UsuarioBD();
+
+    int idUsuario = dao.obtenerIdPorCorreo(correo);
+
+    if (idUsuario == -1) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Correo no encontrado"
+        );
+
+        return;
+    }
+
+    RecuperarFace ventana = new RecuperarFace(idUsuario, correo, correo);
+
+    ventana.setVisible(true);
 }
 }

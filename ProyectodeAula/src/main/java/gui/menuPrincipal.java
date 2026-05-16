@@ -129,6 +129,7 @@ icono_entrarp.addMouseListener(new java.awt.event.MouseAdapter() {
         label_cerrarS = new javax.swing.JLabel();
         lbl_nomreS = new javax.swing.JLabel();
         lbl_rol = new javax.swing.JLabel();
+        label_volverMenuPrincipal = new javax.swing.JLabel();
         tarjeta_1 = new javax.swing.JPanel() {
             @Override
             protected void paintComponent(java.awt.Graphics g) {
@@ -329,6 +330,16 @@ icono_entrarp.addMouseListener(new java.awt.event.MouseAdapter() {
         lbl_rol.setForeground(new java.awt.Color(255, 255, 255));
         lbl_rol.setText("\n");
         panel_azul.add(lbl_rol, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 40, 110, 30));
+
+        label_volverMenuPrincipal.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        label_volverMenuPrincipal.setForeground(new java.awt.Color(255, 255, 255));
+        label_volverMenuPrincipal.setText("<- Volver");
+        label_volverMenuPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                label_volverMenuPrincipalMouseClicked(evt);
+            }
+        });
+        panel_azul.add(label_volverMenuPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 90, -1));
 
         panel_fondo.add(panel_azul, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -630,6 +641,12 @@ icono_entrarp.addMouseListener(new java.awt.event.MouseAdapter() {
         // TODO add your handling code here:
     }//GEN-LAST:event_icono_votoMouseClicked
 
+    private void label_volverMenuPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_label_volverMenuPrincipalMouseClicked
+        // Label para volver a menu principal
+
+        restaurarMenuPrincipal();
+    }//GEN-LAST:event_label_volverMenuPrincipalMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -673,6 +690,7 @@ icono_entrarp.addMouseListener(new java.awt.event.MouseAdapter() {
     private javax.swing.JLabel label_cerrarS;
     private javax.swing.JLabel label_nombre1;
     private javax.swing.JLabel label_rol;
+    private javax.swing.JLabel label_volverMenuPrincipal;
     private javax.swing.JLabel lbl_bienvenida;
     private javax.swing.JLabel lbl_nomreS;
     private javax.swing.JLabel lbl_rol;
@@ -749,6 +767,8 @@ public void restaurarMenuPrincipal() {
 
     panelCentral.removeAll();
 
+    panelCentral.setVisible(false);
+
     tarjeta_1.setVisible(true);
     tarjeta_2.setVisible(true);
     tarjeta_3.setVisible(true);
@@ -757,8 +777,12 @@ public void restaurarMenuPrincipal() {
 
     lbl_bienvenida.setVisible(true);
 
-    panelCentral.revalidate();
-    panelCentral.repaint();
+    jLabel3.setVisible(true);
+
+    panel_decoracion.setVisible(true);
+
+    panel_fondo.revalidate();
+    panel_fondo.repaint();
 }
 
 
@@ -783,9 +807,13 @@ public void mostrarPanel(JPanel panel) {
 
     panelCentral.removeAll();
 
+    panelCentral.setVisible(true);
+
     panelCentral.setLayout(new BorderLayout());
 
     panelCentral.add(panel, BorderLayout.CENTER);
+
+    panel_fondo.setComponentZOrder(panelCentral, 0);
 
     panelCentral.revalidate();
 

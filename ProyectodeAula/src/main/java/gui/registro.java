@@ -139,6 +139,7 @@ public class registro extends javax.swing.JFrame {
     private void initComponents() {
 
         jLayeredPane1 = new javax.swing.JLayeredPane();
+        label_volverLogin = new javax.swing.JLabel();
         panel_fondo = new javax.swing.JPanel();
         panel_formulario = new javax.swing.JPanel();
         formulario_p = new PanelRedondeado();
@@ -161,15 +162,32 @@ public class registro extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        label_volverLogin.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        label_volverLogin.setForeground(new java.awt.Color(24, 90, 219));
+        label_volverLogin.setText("   <- Volver ");
+        label_volverLogin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                label_volverLoginMouseClicked(evt);
+            }
+        });
+
+        jLayeredPane1.setLayer(label_volverLogin, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1280, Short.MAX_VALUE)
+            .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(label_volverLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(1209, Short.MAX_VALUE))
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 705, Short.MAX_VALUE)
+            .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(label_volverLogin)
+                .addContainerGap(667, Short.MAX_VALUE))
         );
 
         panel_formulario.setOpaque(false);
@@ -341,7 +359,7 @@ public class registro extends javax.swing.JFrame {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(47, 47, 47)
                     .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(48, Short.MAX_VALUE)))
+                    .addContainerGap(23, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -610,6 +628,14 @@ public class registro extends javax.swing.JFrame {
        label_terminos.setForeground(Color.BLUE);
     }//GEN-LAST:event_salida
 
+    private void label_volverLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_label_volverLoginMouseClicked
+        // Label para mandar a registro
+
+        login l = new login();
+        l.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_label_volverLoginMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -647,6 +673,7 @@ public class registro extends javax.swing.JFrame {
     private javax.swing.JPanel formulario_p;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JLabel label_terminos;
+    private javax.swing.JLabel label_volverLogin;
     private javax.swing.JPanel panel_fondo;
     private javax.swing.JPanel panel_formulario;
     private javax.swing.JLabel txt_info;
