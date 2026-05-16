@@ -24,7 +24,13 @@ import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 import java.net.URL;
 import java.util.List;
+import org.opencv.core.Core;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
 
 public class registro extends javax.swing.JFrame {
     private boolean rostroGuardado = false;
@@ -410,117 +416,167 @@ public class registro extends javax.swing.JFrame {
     private void bt_registroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_registroActionPerformed
         
 
-    String nombre = caja_nombre.getText().trim();
-    String correo = caja_correo.getText().trim().toLowerCase();
-    String usuario = caja_usuario.getText().trim();
-    String codigo = caja_codigo.getText().trim();
-    String pass = new String(caja_contraseña.getPassword());
-
-    if (nombre.isEmpty() || correo.isEmpty() || usuario.isEmpty() || codigo.isEmpty() || pass.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios");
-        return;
-    }
-
-    if (!Validación.esNombreValido(nombre)) {
-        JOptionPane.showMessageDialog(this, "Nombre inválido");
-        caja_nombre.requestFocus();
-        return;
-    }
-
-    if (!Validación.esCorreoInstitucional(correo)) {
-        JOptionPane.showMessageDialog(this, "Correo institucional inválido");
-        caja_correo.requestFocus();
-        return;
-    }
-
-    if (!Validación.esUsuarioValido(usuario)) {
-        JOptionPane.showMessageDialog(this, "Usuario inválido");
-        caja_usuario.requestFocus();
-        return;
-    }
-
-    if (!Validación.esCodigoValido(codigo)) {
-        JOptionPane.showMessageDialog(this, "Código estudiantil inválido");
-        caja_codigo.requestFocus();
-        return;
-    }
-
-    if (!Validación.esPasswordValida(pass)) {
-        JOptionPane.showMessageDialog(this, "Contraseña inválida");
-        caja_contraseña.requestFocus();
-        return;
-    }
-
-    if (!check_terminos.isSelected()) {
-        JOptionPane.showMessageDialog(this, "Debe aceptar los términos y condiciones");
-        check_terminos.requestFocus();
-        return;
-    }
-
-    try {
-        Connection con = Conexion.conectar();
-        String sql = "INSERT INTO usuarios (nombre_completo, correo, usuario, codigo_estudiantil, contrasena) VALUES (?, ?, ?, ?, ?)";
-        PreparedStatement ps = con.prepareStatement(sql);
-        ps.setString(1, nombre);
-        ps.setString(2, correo);
-        ps.setString(3, usuario);
-        ps.setString(4, codigo);
-        ps.setString(5, pass);
-        ps.executeUpdate();
-
-        // ✅ Guardar fotos dentro del try, donde 'correo' existe
+   
+        String nombre  = caja_nombre.getText().trim();
+        String correo  = caja_correo.getText().trim().toLowerCase();
+        String usuario = caja_usuario.getText().trim();
+        String codigo  = caja_codigo.getText().trim();
+        String pass    = new String(caja_contraseña.getPassword());
+ 
+        if (nombre.isEmpty() || correo.isEmpty() || usuario.isEmpty()
+                || codigo.isEmpty() || pass.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios");
+            return;
+        }
+        if (!Validación.esNombreValido(nombre)) {
+            JOptionPane.showMessageDialog(this, "Nombre inválido");
+            caja_nombre.requestFocus(); return;
+        }
+        if (!Validación.esCorreoInstitucional(correo)) {
+            JOptionPane.showMessageDialog(this, "Correo institucional inválido");
+            caja_correo.requestFocus(); return;
+        }
+        if (!Validación.esUsuarioValido(usuario)) {
+            JOptionPane.showMessageDialog(this, "Usuario inválido");
+            caja_usuario.requestFocus(); return;
+        }
+        if (!Validación.esCodigoValido(codigo)) {
+            JOptionPane.showMessageDialog(this, "Código estudiantil inválido");
+            caja_codigo.requestFocus(); return;
+        }
+        if (!Validación.esPasswordValida(pass)) {
+            JOptionPane.showMessageDialog(this, "Contraseña inválida");
+            caja_contraseña.requestFocus(); return;
+        }
+        if (!check_terminos.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Debe aceptar los términos y condiciones");
+            check_terminos.requestFocus(); return;
+        }
+ 
+        try {
+            Connection con = Conexion.conectar();
+            String sql = "INSERT INTO usuarios "
+                    + "(nombre_completo, correo, usuario, codigo_estudiantil, contrasena) "
+                    + "VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, nombre);
+            ps.setString(2, correo);
+            ps.setString(3, usuario);
+            ps.setString(4, codigo);
+            ps.setString(5, pass);
+            ps.executeUpdate();
+            con.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al guardar usuario: " + e.getMessage());
+            return;
+        }
+ 
         if (fotosCapturadas != null && !fotosCapturadas.isEmpty()) {
-            File carpeta = new File(System.getProperty("user.dir") + "/dataset/" + correo);
-            if (!carpeta.exists()) carpeta.mkdirs();
-
-            int i = 1;
-            for (Mat img : fotosCapturadas) {
-                String ruta = carpeta.getAbsolutePath() + "/foto_" + i + ".png";
-                org.opencv.imgcodecs.Imgcodecs.imwrite(ruta, img);
-                i++;
-            }
+            guardarFotosConVariantes(correo, fotosCapturadas);
             JOptionPane.showMessageDialog(this, "Usuario registrado con rostro ✅");
         } else {
-            JOptionPane.showMessageDialog(this, "Se ha registrado de manera exitosa (sin rostro)");
+            JOptionPane.showMessageDialog(this, "Registro exitoso (sin datos faciales).");
         }
-
+ 
         new login().setVisible(true);
         this.dispose();
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
     }
-
-
-this.dispose();
-            // Sirve para limpiar los campos
-            caja_nombre.setText("");
-            caja_correo.setText("");
-            caja_usuario.setText("");
-            caja_codigo.setText("");
-            caja_contraseña.setText("");
-            check_terminos.setSelected(false);
-
-       
-
-        
-
-
-
-if (fotosCapturadas != null && !fotosCapturadas.isEmpty()) {
-    File carpeta = new File("dataset/" + correo.trim().toLowerCase());
-    if (!carpeta.exists()) carpeta.mkdirs();
-
-
-int i = 1;
-for (Mat img : fotosCapturadas) {
-    String ruta = carpeta.getAbsolutePath() + "/foto_" + i + ".png";
-    org.opencv.imgcodecs.Imgcodecs.imwrite(ruta, img);
-    i++;
-}
-}
-
-JOptionPane.showMessageDialog(this, "Usuario registrado con rostro ✅");
+ 
+    // ════════════════════════════════════════════════════════════
+    //  GUARDADO CON VARIANTES SINTÉTICAS — MEJORADO
+    //
+    //  Cambio respecto al original:
+    //  - Convierte a GRIS antes de generar variantes, para que
+    //    todas las imágenes vivan en el mismo espacio de color
+    //    que usa ComparadorRostros.preprocesar().
+    //  - Reemplaza add/subtract de Scalar BGR por gamma real
+    //    (oscuro γ=2.2, claro γ=0.5) y CLAHE agresivo.
+    //  - Agrega variante de ruido gaussiano.
+    //  - 20 fotos × 6 variantes = 120 imágenes en gris.
+    // ════════════════════════════════════════════════════════════
+ 
+    private void guardarFotosConVariantes(String correo, List<Mat> fotos) {
+ 
+        File carpeta = new File(
+                System.getProperty("user.dir") + "/dataset/" + correo);
+ 
+        if (!carpeta.exists()) carpeta.mkdirs();
+ 
+        int idx = 1;
+ 
+        for (Mat original : fotos) {
+ 
+            // Convertir a gris UNA sola vez por foto
+            Mat gris = new Mat();
+            Imgproc.cvtColor(original, gris, Imgproc.COLOR_BGR2GRAY);
+            Imgproc.resize(gris, gris, new Size(128, 128));
+ 
+            // ── Variante 1: gris original ────────────────────────
+            Imgcodecs.imwrite(
+                    carpeta.getAbsolutePath() + "/foto_" + idx++ + "_orig.png",
+                    gris);
+ 
+            // ── Variante 2: CLAHE agresivo ───────────────────────
+            // Simula ambiente muy iluminado con contraste alto
+            Mat claheVar = new Mat();
+            org.opencv.imgproc.CLAHE clahe =
+                    Imgproc.createCLAHE(8.0, new Size(4, 4));
+            clahe.apply(gris, claheVar);
+            Imgcodecs.imwrite(
+                    carpeta.getAbsolutePath() + "/foto_" + idx++ + "_clahe.png",
+                    claheVar);
+ 
+            // ── Variante 3: gamma oscura (γ=2.2) ─────────────────
+            // Simula poca luz / habitación tenue
+            Mat oscura = aplicarGamma(gris, 2.2);
+            Imgcodecs.imwrite(
+                    carpeta.getAbsolutePath() + "/foto_" + idx++ + "_dark.png",
+                    oscura);
+ 
+            // ── Variante 4: gamma clara (γ=0.5) ──────────────────
+            // Simula sobreexposición / flash / ventana detrás
+            Mat clara = aplicarGamma(gris, 0.5);
+            Imgcodecs.imwrite(
+                    carpeta.getAbsolutePath() + "/foto_" + idx++ + "_bright.png",
+                    clara);
+ 
+            // ── Variante 5: flip horizontal ───────────────────────
+            // Simula cara ligeramente girada
+            Mat volteada = new Mat();
+            Core.flip(gris, volteada, 1);
+            Imgcodecs.imwrite(
+                    carpeta.getAbsolutePath() + "/foto_" + idx++ + "_flip.png",
+                    volteada);
+ 
+            // ── Variante 6: ruido gaussiano suave ─────────────────
+            // Simula cámara de baja calidad o compresión de video
+            Mat ruido = new Mat(gris.size(), gris.type());
+            Core.randn(ruido, 0, 10);
+            Mat ruidosa = new Mat();
+            Core.add(gris, ruido, ruidosa);
+            ruidosa.convertTo(ruidosa, CvType.CV_8U);
+            Imgcodecs.imwrite(
+                    carpeta.getAbsolutePath() + "/foto_" + idx++ + "_noise.png",
+                    ruidosa);
+        }
+ 
+        System.out.println("Dataset guardado: " + (idx - 1)
+                + " fotos en " + carpeta.getAbsolutePath());
+        // 20 fotos × 6 variantes = 120 imágenes en gris
+    }
+ 
+    /**
+     * Corrección gamma sobre imagen en gris CV_8U.
+     * gamma > 1 oscurece  |  gamma < 1 aclara
+     */
+    private Mat aplicarGamma(Mat src, double gamma) {
+        Mat float32 = new Mat();
+        src.convertTo(float32, CvType.CV_32F, 1.0 / 255.0);
+        Core.pow(float32, gamma, float32);
+        Mat resultado = new Mat();
+        float32.convertTo(resultado, CvType.CV_8U, 255.0);
+        return resultado;
+    
         
     }//GEN-LAST:event_bt_registroActionPerformed
     
@@ -649,4 +705,6 @@ public void rostroCapturadoExitosamente() {
 public void setFotosCapturadas(List<Mat> fotos) {
     this.fotosCapturadas = fotos;
 }
+
+ 
 }
