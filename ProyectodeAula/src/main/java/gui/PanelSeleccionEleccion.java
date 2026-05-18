@@ -158,6 +158,7 @@ private List<String> nombres = new ArrayList<>();
         panel.cargarCandidatos(idEleccion);
         if (menu != null) {
             menu.mostrarPanel(panel);
+            
         }
     }
 

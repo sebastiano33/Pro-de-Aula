@@ -23,6 +23,7 @@ import util.placeHolderJtext;
  */
 public class PanelGestionVotaciones extends javax.swing.JPanel {
     String rutaFoto = "";
+    private String nombre;
     public static ArrayList<Integer> usuariosQueVotaron = new ArrayList<>();
 
     /**
@@ -30,6 +31,7 @@ public class PanelGestionVotaciones extends javax.swing.JPanel {
      */
     public PanelGestionVotaciones() {
         initComponents();
+        this.nombre = nombre;
         
          placeHolderJtext.addPlaceholder(caja_nombre, "Nombre completo");
         placeHolderJtext.addPlaceholder(caja_titulo, "Titlo de la eleccion");
@@ -106,6 +108,7 @@ public class PanelGestionVotaciones extends javax.swing.JPanel {
         caja_idc = new javax.swing.JTextField();
         lblFoto = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
+        btn_propuestas = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
@@ -126,7 +129,7 @@ public class PanelGestionVotaciones extends javax.swing.JPanel {
 
         lbl_desactivar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lbl_desactivar.setText("Desac votación.");
-        lbl_desactivar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbl_desactivar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout roundedPanel3Layout = new javax.swing.GroupLayout(roundedPanel3);
         roundedPanel3.setLayout(roundedPanel3Layout);
@@ -147,7 +150,7 @@ public class PanelGestionVotaciones extends javax.swing.JPanel {
 
         lbl_editar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lbl_editar.setText("Editar votación.");
-        lbl_editar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbl_editar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         lbl_editar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 entrada(evt);
@@ -173,7 +176,7 @@ public class PanelGestionVotaciones extends javax.swing.JPanel {
 
         lbl_entrar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lbl_entrar.setText("Crear votación.");
-        lbl_entrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbl_entrar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         lbl_entrar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 entrada(evt);
@@ -202,7 +205,7 @@ public class PanelGestionVotaciones extends javax.swing.JPanel {
 
         lbl_activar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lbl_activar.setText("Activar votación.");
-        lbl_activar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbl_activar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout roundedPanel5Layout = new javax.swing.GroupLayout(roundedPanel5);
         roundedPanel5.setLayout(roundedPanel5Layout);
@@ -321,7 +324,7 @@ public class PanelGestionVotaciones extends javax.swing.JPanel {
                 jButton2ActionPerformed(evt);
             }
         });
-        panel_dinamico.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 410, 150, 30));
+        panel_dinamico.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, 150, 30));
         panel_dinamico.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, 250, 10));
 
         jButton3.setBackground(new java.awt.Color(0, 0, 255));
@@ -361,6 +364,14 @@ public class PanelGestionVotaciones extends javax.swing.JPanel {
         jLabel16.setForeground(new java.awt.Color(255, 0, 51));
         jLabel16.setText("Preview imagen seleccionada");
         panel_dinamico.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 280, -1, -1));
+
+        btn_propuestas.setText("Agregar Propuestas");
+        btn_propuestas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_propuestasActionPerformed(evt);
+            }
+        });
+        panel_dinamico.add(btn_propuestas, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 420, 130, 30));
 
         add(panel_dinamico, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 60, 590, 510));
     }// </editor-fold>//GEN-END:initComponents
@@ -487,8 +498,16 @@ chooser.setFileFilter(filtro);
     }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void btn_propuestasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_propuestasActionPerformed
+        // TODO add your handling code here:
+        btn_propuestas.addActionListener( e -> mostrarPropuestas(nombre)
+        );
+                 add(btn_propuestas);
+    }//GEN-LAST:event_btn_propuestasActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_propuestas;
     private javax.swing.JTextField caja_carrera;
     private javax.swing.JTextField caja_descripcion;
     private javax.swing.JTextField caja_ffin;
@@ -515,7 +534,6 @@ chooser.setFileFilter(filtro);
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -529,11 +547,21 @@ chooser.setFileFilter(filtro);
     private javax.swing.JLabel lbl_entrar;
     private gui.RoundedPanel panel_dinamico;
     private gui.RoundedPanel roundedPanel1;
-    private gui.RoundedPanel roundedPanel2;
     private gui.RoundedPanel roundedPanel3;
     private gui.RoundedPanel roundedPanel4;
     private gui.RoundedPanel roundedPanel5;
     // End of variables declaration//GEN-END:variables
 
-    
+    private void mostrarPropuestas(String nombre) {
+
+    String propuestas =
+        util.Propuestasloader.obtenerPropuestas(nombre);
+
+    javax.swing.JOptionPane.showMessageDialog(
+        null,
+        propuestas,
+        "Propuestas de " + nombre,
+        javax.swing.JOptionPane.INFORMATION_MESSAGE
+    );
+}
 }

@@ -2,6 +2,7 @@ package gui;
 
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
 import java.sql.Connection;
@@ -612,6 +613,8 @@ icono_entrarp.addMouseListener(new java.awt.event.MouseAdapter() {
 
         panel_fondo.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 110, 80, 80));
 
+        panelCentral.setBackground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout panelCentralLayout = new javax.swing.GroupLayout(panelCentral);
         panelCentral.setLayout(panelCentralLayout);
         panelCentralLayout.setHorizontalGroup(
@@ -803,7 +806,7 @@ private void cerrarSesion() {
     }
 }
 
-public void mostrarPanel(JPanel panel) {
+public void mostrarPanel(Component panel) {
 
     panelCentral.removeAll();
 

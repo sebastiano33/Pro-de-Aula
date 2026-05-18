@@ -5,17 +5,26 @@
 package gui;
  
 import dao.VotoBD;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.io.IOException;
 import javax.swing.ImageIcon;
  
-public class CardCandidato extends javax.swing.JPanel {
+public class CardCandidato extends RoundedPanel {
  
     private int idCandidato;
-    private int idEleccion; // ← necesario para guardar el voto correctamente
+    private int idEleccion; 
+    private String nombre;
+    
  
     public CardCandidato(String nombre, String carrera, String foto, int idCandidato, int idEleccion) {
         initComponents();
+        this.nombre = nombre;
+        setPreferredSize(new Dimension(260, 390));
+        setMinimumSize(new Dimension(260, 390));
+        setMaximumSize(new Dimension(260, 390));
+        setBackground(Color.WHITE);
         this.idCandidato = idCandidato;
         this.idEleccion = idEleccion;
  
@@ -125,7 +134,7 @@ public class CardCandidato extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     
 
-
+    
 
     
 
@@ -141,78 +150,45 @@ public class CardCandidato extends javax.swing.JPanel {
         lbl_foto = new javax.swing.JLabel();
         lbl_nombre = new javax.swing.JLabel();
         lbl_carrera = new javax.swing.JLabel();
-        lbl_numero = new javax.swing.JLabel();
         btn_votar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
-        setMaximumSize(new java.awt.Dimension(220, 280));
-        setMinimumSize(new java.awt.Dimension(220, 280));
-        setPreferredSize(new java.awt.Dimension(220, 280));
+        setBackground(new java.awt.Color(255, 255, 255));
+        setMaximumSize(new java.awt.Dimension(260, 380));
+        setMinimumSize(new java.awt.Dimension(260, 380));
+        setOpaque(false);
+        setPreferredSize(new java.awt.Dimension(260, 380));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        add(lbl_foto, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 120, 120));
 
         lbl_nombre.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lbl_nombre.setForeground(new java.awt.Color(0, 0, 255));
+        lbl_nombre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        add(lbl_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 248, 31));
 
         lbl_carrera.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lbl_carrera.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
-        lbl_numero.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        add(lbl_carrera, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 170, 113, 20));
 
         btn_votar.setBackground(new java.awt.Color(8, 51, 162));
         btn_votar.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         btn_votar.setForeground(new java.awt.Color(255, 255, 255));
         btn_votar.setText("Votar");
+        add(btn_votar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 310, 112, 50));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lbl_nombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(43, 43, 43)
-                                .addComponent(lbl_foto, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(lbl_numero, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addGap(44, 44, 44)
-                                    .addComponent(lbl_carrera, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addComponent(btn_votar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(55, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbl_foto, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lbl_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lbl_carrera, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl_numero, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btn_votar, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        jButton1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(8, 51, 162));
+        jButton1.setText("Propuestas");
+        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 260, 110, 30));
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_votar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel lbl_carrera;
     private javax.swing.JLabel lbl_foto;
     private javax.swing.JLabel lbl_nombre;
-    private javax.swing.JLabel lbl_numero;
     // End of variables declaration//GEN-END:variables
 }
 

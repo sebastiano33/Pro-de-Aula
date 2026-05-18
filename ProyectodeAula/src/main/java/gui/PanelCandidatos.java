@@ -31,7 +31,8 @@ public class PanelCandidatos extends javax.swing.JPanel {
             ResultSet rs = ps.executeQuery();
  
             this.removeAll();
-            this.setLayout(new java.awt.GridLayout(0, 2));
+            this.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER,25,25));
+            this.setBackground(new java.awt.Color(245,245,245));
  
             while (rs.next()) {
                 String nombre = rs.getString("nombre");

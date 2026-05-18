@@ -1,47 +1,62 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package gui;
 
 import java.awt.*;
 import javax.swing.*;
 
-/**
- *
- * @author DISTRIEMPAQUES
- */
 public class RoundedPanel extends JPanel {
-      private int cornerRadius = 25;
+
+    private int cornerRadius = 25;
 
     public RoundedPanel() {
         setOpaque(false);
+        setBackground(Color.WHITE);
     }
 
-    
+    @Override
     protected void paintComponent(Graphics g) {
 
         Graphics2D g2 = (Graphics2D) g.create();
 
         g2.setRenderingHint(
-            RenderingHints.KEY_ANTIALIASING,
-            RenderingHints.VALUE_ANTIALIAS_ON
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON
         );
 
-        g2.setColor(getBackground());
-
+        // SOMBRA
+        g2.setColor(new Color(0, 0, 0, 25));
         g2.fillRoundRect(
-            0,
-            0,
-            getWidth(),
-            getHeight(),
-            cornerRadius,
-            cornerRadius
+                4,
+                4,
+                getWidth() - 8,
+                getHeight() - 8,
+                cornerRadius,
+                cornerRadius
+        );
+
+        // FONDO
+        g2.setColor(getBackground());
+        g2.fillRoundRect(
+                0,
+                0,
+                getWidth() - 8,
+                getHeight() - 8,
+                cornerRadius,
+                cornerRadius
+        );
+
+        // BORDE SUAVE
+        g2.setColor(new Color(230, 230, 230));
+        g2.drawRoundRect(
+                0,
+                0,
+                getWidth() - 9,
+                getHeight() - 9,
+                cornerRadius,
+                cornerRadius
         );
 
         g2.dispose();
 
         super.paintComponent(g);
     }
-    
 }

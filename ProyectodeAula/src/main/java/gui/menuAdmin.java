@@ -253,7 +253,7 @@ tarjeta_2.add(icono_entrare, new org.netbeans.lib.awtextra.AbsoluteConstraints(1
         panel_fondo.setMinimumSize(new java.awt.Dimension(1280, 720));
         panel_fondo.setPreferredSize(new java.awt.Dimension(1280, 720));
         panel_fondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        panel_fondo.add(panelGestionVotaciones1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 70, 900, 580));
+        panel_fondo.add(panelGestionVotaciones1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 900, 580));
 
         panel_azul.setBackground(new java.awt.Color(0, 74, 173));
         panel_azul.setMaximumSize(new java.awt.Dimension(1280, 90));
@@ -394,7 +394,7 @@ tarjeta_2.add(icono_entrare, new org.netbeans.lib.awtextra.AbsoluteConstraints(1
         tarjeta_2.add(circulo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, 100, 100));
 
         icono_entrare.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        icono_entrare.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        icono_entrare.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tarjeta_2.add(icono_entrare, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 280, 100, 100));
 
         panel_fondo.add(tarjeta_2, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 200, 320, 380));
@@ -435,7 +435,7 @@ tarjeta_2.add(icono_entrare, new org.netbeans.lib.awtextra.AbsoluteConstraints(1
         tarjeta_3.add(circulo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, 100, 100));
 
         icono_entrarp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        icono_entrarp.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        icono_entrarp.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tarjeta_3.add(icono_entrarp, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 280, 100, 100));
 
         panel_fondo.add(tarjeta_3, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 200, 320, 380));
