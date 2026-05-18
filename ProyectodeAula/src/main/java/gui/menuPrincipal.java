@@ -41,11 +41,20 @@ public menuPrincipal(int idUsuario, String nombreRecibido) {
 
     cargarIconos();
     icono_entrarp.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    
 
 icono_entrarp.addMouseListener(new java.awt.event.MouseAdapter() {
     @Override
     public void mouseClicked(java.awt.event.MouseEvent evt) {
         abrirPerfil();
+    }
+});
+
+icono_entrare.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+icono_entrare.addMouseListener(new java.awt.event.MouseAdapter() {
+    @Override
+    public void mouseClicked(java.awt.event.MouseEvent evt) {
+        abrirEstadoVotacion();
     }
 });
 
@@ -822,6 +831,20 @@ public void mostrarPanel(Component panel) {
 
     panelCentral.repaint();
 }
+private void abrirEstadoVotacion() {
+    tarjeta_1.setVisible(false);
+    tarjeta_2.setVisible(false);
+    tarjeta_3.setVisible(false);
+    panel_footer.setVisible(false);
+    lbl_bienvenida.setVisible(false);
+    jLabel3.setVisible(false);
+    panel_decoracion.setVisible(false);
+
+    mostrarPanel(new gui.PanelEstadoVotacion(this, idUsuario));
 }
+
+
+}
+
 
 
