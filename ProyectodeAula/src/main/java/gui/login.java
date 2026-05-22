@@ -31,6 +31,39 @@ public class login extends javax.swing.JFrame {
     public login() {
         initComponents();
         cargarIconos();
+        // Limpiar campos al hacer click
+caja_usuario.addFocusListener(new java.awt.event.FocusAdapter() {
+    @Override
+    public void focusGained(java.awt.event.FocusEvent e) {
+        if (caja_usuario.getText().equals("Usuario")) {
+            caja_usuario.setText("");
+        }
+    }
+    @Override
+    public void focusLost(java.awt.event.FocusEvent e) {
+        if (caja_usuario.getText().isEmpty()) {
+            caja_usuario.setText("Usuario");
+        }
+    }
+});
+
+caja_contraseña.addFocusListener(new java.awt.event.FocusAdapter() {
+    @Override
+    public void focusGained(java.awt.event.FocusEvent e) {
+        if (new String(caja_contraseña.getPassword()).equals("******")) {
+            caja_contraseña.setText("");
+            caja_contraseña.setEchoChar('•');
+        }
+    }
+    @Override 
+    public void focusLost(java.awt.event.FocusEvent e) {
+        if (caja_contraseña.getPassword().length == 0) {
+            caja_contraseña.setEchoChar((char) 0);
+            caja_contraseña.setText("******");
+            
+        }
+    }
+});
     }
 
     /**
@@ -122,8 +155,13 @@ public class login extends javax.swing.JFrame {
 
         caja_contraseña.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         caja_contraseña.setForeground(new java.awt.Color(24, 90, 219));
-        caja_contraseña.setText("Contraseña");
+        caja_contraseña.setText("******");
         caja_contraseña.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(24, 90, 219)));
+        caja_contraseña.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                caja_contraseñaActionPerformed(evt);
+            }
+        });
         pa_info.add(caja_contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 310, 410, 70));
 
         label_olvidasteContraseña.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -214,11 +252,19 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_salida
 
     private void bt_inicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_inicioActionPerformed
-        //Boton de Login
+        
+
+//Boton de Login
         
 
         String usuario = caja_usuario.getText().trim();
     String password = new String(caja_contraseña.getPassword()).trim();
+    
+    
+if (password.equals("******")) {
+    JOptionPane.showMessageDialog(null, "Ingresa tu contraseña");
+    return;
+}
 
     if (usuario.isEmpty() || password.isEmpty()) {
         JOptionPane.showMessageDialog(null, "Complete todos los campos");
@@ -298,6 +344,10 @@ public class login extends javax.swing.JFrame {
         
         recuperarContraseña();
     }//GEN-LAST:event_label_olvidasteContraseñaMouseClicked
+
+    private void caja_contraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caja_contraseñaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_caja_contraseñaActionPerformed
 
     /**
      * @param args the command line arguments

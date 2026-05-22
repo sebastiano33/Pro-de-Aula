@@ -499,19 +499,7 @@ public class registro extends javax.swing.JFrame {
         new login().setVisible(true);
         this.dispose();
     }
- 
-    // ════════════════════════════════════════════════════════════
-    //  GUARDADO CON VARIANTES SINTÉTICAS — MEJORADO
-    //
-    //  Cambio respecto al original:
-    //  - Convierte a GRIS antes de generar variantes, para que
-    //    todas las imágenes vivan en el mismo espacio de color
-    //    que usa ComparadorRostros.preprocesar().
-    //  - Reemplaza add/subtract de Scalar BGR por gamma real
-    //    (oscuro γ=2.2, claro γ=0.5) y CLAHE agresivo.
-    //  - Agrega variante de ruido gaussiano.
-    //  - 20 fotos × 6 variantes = 120 imágenes en gris.
-    // ════════════════════════════════════════════════════════════
+
  
     private void guardarFotosConVariantes(String correo, List<Mat> fotos) {
  

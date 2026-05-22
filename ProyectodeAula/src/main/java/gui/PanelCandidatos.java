@@ -8,11 +8,15 @@ import config.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
- 
+
+
 public class PanelCandidatos extends javax.swing.JPanel {
+     private menuPrincipal menu;
  
-    public PanelCandidatos() {
+    public PanelCandidatos(menuPrincipal menu1) {
+        this.menu = menu1;
         initComponents();
+        
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -44,9 +48,22 @@ public class PanelCandidatos extends javax.swing.JPanel {
                 CardCandidato card = new CardCandidato(nombre, carrera, foto, rs.getInt("id_candidato"), idEleccion);
                 this.add(card);
             }
- 
+            // Botón volver
+javax.swing.JButton btn_volver = new javax.swing.JButton("←");
+btn_volver.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 22));
+btn_volver.setForeground(java.awt.Color.WHITE);
+btn_volver.setBackground(new java.awt.Color(0, 74, 173));
+btn_volver.setFocusPainted(false);
+btn_volver.setBorderPainted(false);
+btn_volver.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+btn_volver.addActionListener(e -> {
+    if (menu != null) menu.restaurarMenuPrincipal();
+});
+this.add(btn_volver);
+
+this.revalidate();
             this.revalidate();
-            this.repaint();
+            
  
         } catch (Exception e) {
             System.out.println("ERROR: " + e.getMessage());

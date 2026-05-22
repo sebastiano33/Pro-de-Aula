@@ -6,7 +6,6 @@ package gui;
 import config.Conexion;
 import java.awt.BorderLayout;
 import java.awt.Image;
-import static java.awt.SystemColor.menu;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -45,19 +44,32 @@ private List<String> nombres = new ArrayList<>();
         initEventos();  
     }
     
-    private void initCustomComponents() {
-        // 3. Instanciar (Crear el objeto)
-        lista = new javax.swing.JList<>();
-        scrollLista = new javax.swing.JScrollPane(lista);
+        private void initCustomComponents() {
+    lista = new javax.swing.JList<>();
+    scrollLista = new javax.swing.JScrollPane(lista);
+    this.add(scrollLista, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 400, 250));
 
-        // 4. Configurar posición en el AbsoluteLayout
-        // (x, y, ancho, alto) -> Ajusta estos valores a tu gusto
-        this.add(scrollLista, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 400, 250));
-        
-        // Esto fuerza al panel a mostrar lo que acabamos de agregar
-        this.revalidate();
-        this.repaint();
-    }
+    // Botón volver
+    java.awt.Font font = new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 22);
+    javax.swing.JButton btn_volver = new javax.swing.JButton("←");
+    btn_volver.setFont(font);
+    btn_volver.setForeground(java.awt.Color.WHITE);
+    btn_volver.setBackground(new java.awt.Color(0, 74, 173));
+    btn_volver.setFocusPainted(false);
+    btn_volver.setBorderPainted(false);
+    btn_volver.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+    btn_volver.addActionListener(e -> {
+        if (menu != null) {
+            menu.restaurarMenuPrincipal();
+        }
+    });
+    this.add(btn_volver, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 20, 50, 40));
+
+    this.revalidate();
+    this.repaint();
+}
+       
+
     
    
 
@@ -154,7 +166,7 @@ private List<String> nombres = new ArrayList<>();
     }
 
     private void abrirCandidatos(int idEleccion) {
-        PanelCandidatos panel = new PanelCandidatos();
+        PanelCandidatos panel = new PanelCandidatos(menu);
         panel.cargarCandidatos(idEleccion);
         if (menu != null) {
             menu.mostrarPanel(panel);

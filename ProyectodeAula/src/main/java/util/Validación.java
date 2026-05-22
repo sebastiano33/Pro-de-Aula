@@ -3,7 +3,7 @@ package util;
 
 public class Validación {
     public static boolean esNombreValido(String nombre) {
-        return nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{5,}");
+        return nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{4,}");
     }
 
     public static boolean esCorreoInstitucional(String correo) {

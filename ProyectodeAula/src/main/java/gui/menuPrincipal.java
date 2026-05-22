@@ -90,9 +90,24 @@ icono_entrare.addMouseListener(new java.awt.event.MouseAdapter() {
                 ) {
 
                     cerrarSesion();
+                    
                 }
             }
     );
+    label_volverMenuPrincipal.setVisible(false);
+   boolean hayVotaciones = verificarVotacionesActivas();
+        javax.swing.JLabel lbl_estadoVotacion = new javax.swing.JLabel(
+        hayVotaciones ? "HAY VOTACIONES" : "NO HAY VOTACIONES");
+        lbl_estadoVotacion.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 13));
+        lbl_estadoVotacion.setForeground(
+        hayVotaciones ? new java.awt.Color(34, 139, 34) : new java.awt.Color(180, 50, 50));
+
+        
+        panel_footer.add(lbl_estadoVotacion,
+        new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 58, 250, 20));
+        panel_footer.revalidate();
+        panel_footer.repaint(); 
+    
 }
  public menuPrincipal(String nombreRecibido) {
 
@@ -104,6 +119,8 @@ icono_entrare.addMouseListener(new java.awt.event.MouseAdapter() {
 
         lbl_bienvenida.setText("¡Bienvenido, " + nombreRecibido + "!");
         lbl_nomreS.setText(nombreRecibido);
+        
+      
     }
 
 
@@ -265,27 +282,9 @@ icono_entrare.addMouseListener(new java.awt.event.MouseAdapter() {
                 g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 25, 25);
             }
         };
-        panel_circulo = new javax.swing.JPanel() {
-            @Override
-            protected void paintComponent(java.awt.Graphics g) {
-                super.paintComponent(g);
-                java.awt.Graphics2D g2 = (java.awt.Graphics2D) g;
-                g2.setRenderingHint(java.awt.RenderingHints.KEY_ANTIALIASING, java.awt.RenderingHints.VALUE_ANTIALIAS_ON);
-
-                // Color azul muy clarito (como el de la referencia)
-                g2.setColor(new java.awt.Color(232, 240, 254)); 
-
-                // Dibujamos el círculo (un óvalo con mismo ancho y alto)
-                g2.fillOval(0, 0, getWidth(), getHeight());
-            }
-        };
         txt_estado = new javax.swing.JLabel();
-        txt_info14 = new javax.swing.JLabel();
         txt_info15 = new javax.swing.JLabel();
-        separador = new javax.swing.JSeparator();
         panel_circulo2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jSeparator2 = new javax.swing.JSeparator();
         panel_circulo3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         lbl_bienvenida = new javax.swing.JLabel();
@@ -508,36 +507,14 @@ icono_entrare.addMouseListener(new java.awt.event.MouseAdapter() {
         panel_footer.setOpaque(false);
         panel_footer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        panel_circulo.setOpaque(false);
-
-        javax.swing.GroupLayout panel_circuloLayout = new javax.swing.GroupLayout(panel_circulo);
-        panel_circulo.setLayout(panel_circuloLayout);
-        panel_circuloLayout.setHorizontalGroup(
-            panel_circuloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 60, Short.MAX_VALUE)
-        );
-        panel_circuloLayout.setVerticalGroup(
-            panel_circuloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 60, Short.MAX_VALUE)
-        );
-
-        panel_footer.add(panel_circulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 60, 60));
-
         txt_estado.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txt_estado.setForeground(new java.awt.Color(0, 74, 173));
         txt_estado.setText("Estado actual");
         panel_footer.add(txt_estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 25, -1, -1));
 
-        txt_info14.setForeground(new java.awt.Color(102, 102, 102));
-        txt_info14.setText("Aquí puedes ver un resumen ");
-        panel_footer.add(txt_info14, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 45, -1, -1));
-
         txt_info15.setForeground(new java.awt.Color(102, 102, 102));
-        txt_info15.setText("de tu actividad en el sistema.");
-        panel_footer.add(txt_info15, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 58, -1, -1));
-
-        separador.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        panel_footer.add(separador, new org.netbeans.lib.awtextra.AbsoluteConstraints(345, 20, 20, 60));
+        txt_info15.setText("Votaciones a Consejo academico");
+        panel_footer.add(txt_info15, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 50, -1, -1));
 
         panel_circulo2.setOpaque(false);
 
@@ -553,14 +530,6 @@ icono_entrare.addMouseListener(new java.awt.event.MouseAdapter() {
         );
 
         panel_footer.add(panel_circulo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 20, 60, 60));
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 204));
-        jLabel1.setText("Estado de votación");
-        panel_footer.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 25, -1, -1));
-
-        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        panel_footer.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 20, 30, 60));
 
         panel_circulo3.setOpaque(false);
 
@@ -580,7 +549,7 @@ icono_entrare.addMouseListener(new java.awt.event.MouseAdapter() {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 204));
         jLabel2.setText("Proximas votaciones");
-        panel_footer.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 25, -1, -1));
+        panel_footer.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 30, -1, -1));
 
         panel_fondo.add(panel_footer, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 600, 1040, 100));
 
@@ -632,12 +601,12 @@ icono_entrare.addMouseListener(new java.awt.event.MouseAdapter() {
         );
         panelCentralLayout.setVerticalGroup(
             panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 570, Short.MAX_VALUE)
+            .addGap(0, 590, Short.MAX_VALUE)
         );
 
-        panel_fondo.add(panelCentral, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, 1190, 570));
+        panel_fondo.add(panelCentral, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, 1190, 590));
 
-        getContentPane().add(panel_fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        getContentPane().add(panel_fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 740));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -693,12 +662,10 @@ icono_entrare.addMouseListener(new java.awt.event.MouseAdapter() {
     private javax.swing.JLabel icono_info;
     private javax.swing.JLabel icono_perfil;
     private javax.swing.JLabel icono_voto;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel label_cerrarS;
     private javax.swing.JLabel label_nombre1;
     private javax.swing.JLabel label_rol;
@@ -708,13 +675,11 @@ icono_entrare.addMouseListener(new java.awt.event.MouseAdapter() {
     private javax.swing.JLabel lbl_rol;
     private javax.swing.JPanel panelCentral;
     private javax.swing.JPanel panel_azul;
-    private javax.swing.JPanel panel_circulo;
     private javax.swing.JPanel panel_circulo2;
     private javax.swing.JPanel panel_circulo3;
     private javax.swing.JPanel panel_decoracion;
     private javax.swing.JPanel panel_fondo;
     private javax.swing.JPanel panel_footer;
-    private javax.swing.JSeparator separador;
     private javax.swing.JPanel tarjeta_1;
     private javax.swing.JPanel tarjeta_2;
     private javax.swing.JPanel tarjeta_3;
@@ -723,7 +688,6 @@ icono_entrare.addMouseListener(new java.awt.event.MouseAdapter() {
     private javax.swing.JLabel txt_info1;
     private javax.swing.JLabel txt_info10;
     private javax.swing.JLabel txt_info11;
-    private javax.swing.JLabel txt_info14;
     private javax.swing.JLabel txt_info15;
     private javax.swing.JLabel txt_info3;
     private javax.swing.JLabel txt_info4;
@@ -813,6 +777,25 @@ private void cerrarSesion() {
 
         new login().setVisible(true);
     }
+}
+
+private boolean verificarVotacionesActivas() {
+    try {
+        java.sql.Connection con = config.Conexion.conectar();
+        java.sql.PreparedStatement ps = con.prepareStatement(
+            "SELECT COUNT(*) FROM elecciones WHERE estado_activa = 1"
+        );
+        java.sql.ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            int count = rs.getInt(1);
+            con.close();
+            return count > 0;
+        }
+        con.close();
+    } catch (Exception e) {
+        System.out.println("Error verificando votaciones: " + e.getMessage());
+    }
+    return false;
 }
 
 public void mostrarPanel(Component panel) {
