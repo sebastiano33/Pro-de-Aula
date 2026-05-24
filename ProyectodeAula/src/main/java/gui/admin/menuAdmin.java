@@ -1,4 +1,4 @@
-package gui;
+package gui.admin;
 
 
 import java.awt.Color;
@@ -26,7 +26,7 @@ public class menuAdmin extends javax.swing.JFrame {
     initComponents();                          // 1ro siempre
 
 // Crear panel resultados
-panelResultados1 = new gui.PanelResultados();
+panelResultados1 = new gui.admin.PanelResultados();
 
 
 
@@ -80,7 +80,7 @@ tarjeta_2.add(icono_entrare, new org.netbeans.lib.awtextra.AbsoluteConstraints(1
                 } catch (Exception e) { e.printStackTrace(); }
             }
         };
-        panelGestionVotaciones1 = new gui.PanelGestionVotaciones();
+        panelGestionVotaciones1 = new gui.admin.PanelGestionVotaciones();
         panel_azul = new javax.swing.JPanel();
         txt_info = new javax.swing.JLabel();
         txt_info1 = new javax.swing.JLabel();
@@ -662,7 +662,7 @@ private void clickReportes(java.awt.event.MouseEvent evt) {
     private javax.swing.JLabel lbl_bienvenida;
     private javax.swing.JLabel lbl_nomreS;
     private javax.swing.JLabel lbl_rol;
-    private gui.PanelGestionVotaciones panelGestionVotaciones1;
+    private gui.admin.PanelGestionVotaciones panelGestionVotaciones1;
     private javax.swing.JPanel panel_azul;
     private javax.swing.JPanel panel_circulo;
     private javax.swing.JPanel panel_circulo2;
@@ -690,7 +690,7 @@ private void clickReportes(java.awt.event.MouseEvent evt) {
     private javax.swing.JLabel txt_info9;
     private javax.swing.JLabel ícono_entrarv;
     // End of variables declaration//GEN-END:variables
-private gui.PanelResultados panelResultados1;
+private gui.admin.PanelResultados panelResultados1;
 private ImageIcon cargarIcono(String nombre, int ancho, int alto) {
     String base = System.getProperty("user.dir");
 

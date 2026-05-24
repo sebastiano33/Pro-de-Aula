@@ -1,6 +1,7 @@
-package gui;
+package gui.panels;
 
 import config.Conexion;
+import gui.menuPrincipal;
 import java.awt.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -1,6 +1,8 @@
 package gui;
 
 
+import gui.panels.PanelSeleccionEleccion;
+import gui.auth.login;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Font;
@@ -736,7 +738,7 @@ private void abrirPerfil() {
 
     panel_decoracion.setVisible(false);
 
-    mostrarPanel(new gui.PanelPerfil(this));
+    mostrarPanel(new gui.panels.PanelPerfil(this));
 }
 
 public void restaurarMenuPrincipal() {
@@ -823,7 +825,7 @@ private void abrirEstadoVotacion() {
     jLabel3.setVisible(false);
     panel_decoracion.setVisible(false);
 
-    mostrarPanel(new gui.PanelEstadoVotacion(this, idUsuario));
+    mostrarPanel(new gui.admin.PanelEstadoVotacion(this, idUsuario));
 }
 
 

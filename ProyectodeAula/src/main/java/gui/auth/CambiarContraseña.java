@@ -1,4 +1,4 @@
-package gui;
+package gui.auth;
 
 import dao.UsuarioBD;
 

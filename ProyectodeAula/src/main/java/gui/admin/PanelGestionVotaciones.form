@@ -116,7 +116,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Container class="gui.RoundedPanel" name="roundedPanel3">
+        <Container class="gui.components.RoundedPanel" name="roundedPanel3">
 
           <Layout>
             <DimensionLayout dim="0">
@@ -146,13 +146,13 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Desac votaci&#xf3;n."/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                  <Color id="Cursor Por defecto"/>
+                  <Color id="Default Cursor"/>
                 </Property>
               </Properties>
             </Component>
           </SubComponents>
         </Container>
-        <Container class="gui.RoundedPanel" name="roundedPanel1">
+        <Container class="gui.components.RoundedPanel" name="roundedPanel1">
 
           <Layout>
             <DimensionLayout dim="0">
@@ -182,7 +182,7 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Editar votaci&#xf3;n."/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                  <Color id="Cursor Por defecto"/>
+                  <Color id="Default Cursor"/>
                 </Property>
               </Properties>
               <Events>
@@ -191,7 +191,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="gui.RoundedPanel" name="roundedPanel4">
+        <Container class="gui.components.RoundedPanel" name="roundedPanel4">
 
           <Layout>
             <DimensionLayout dim="0">
@@ -221,7 +221,7 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Crear votaci&#xf3;n."/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                  <Color id="Cursor Por defecto"/>
+                  <Color id="Default Cursor"/>
                 </Property>
               </Properties>
               <Events>
@@ -231,7 +231,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="gui.RoundedPanel" name="roundedPanel5">
+        <Container class="gui.components.RoundedPanel" name="roundedPanel5">
 
           <Layout>
             <DimensionLayout dim="0">
@@ -261,7 +261,7 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Activar votaci&#xf3;n."/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-                  <Color id="Cursor Por defecto"/>
+                  <Color id="Default Cursor"/>
                 </Property>
               </Properties>
             </Component>
@@ -269,7 +269,7 @@
         </Container>
       </SubComponents>
     </Container>
-    <Container class="gui.RoundedPanel" name="panel_dinamico">
+    <Container class="gui.components.RoundedPanel" name="panel_dinamico">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="300" y="60" width="590" height="510"/>

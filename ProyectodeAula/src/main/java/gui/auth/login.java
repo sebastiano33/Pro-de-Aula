@@ -1,4 +1,4 @@
-package gui;
+package gui.auth;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -10,6 +10,8 @@ package gui;
  */
 import config.Conexion;
 import dao.UsuarioBD;
+import gui.admin.menuAdmin;
+import gui.menuPrincipal;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.File;

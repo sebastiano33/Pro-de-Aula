@@ -1,7 +1,8 @@
-package gui;
+package gui.auth;
 
-import gui.login;
+import gui.auth.login;
 import config.Conexion;
+import gui.VentanaCaptura;
 import util.placeHolderJtext;
 import util.Validación;
 import java.awt.BorderLayout;

@@ -1,7 +1,8 @@
-package gui;
+package gui.admin;
 
 import config.Conexion;
 import dao.VotoBD;
+import gui.menuPrincipal;
 import java.awt.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

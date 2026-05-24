@@ -1,5 +1,8 @@
-package gui;
+package gui.auth;
 
+import gui.panels.PanelReconocimiento;
+import gui.auth.login;
+import gui.menuPrincipal;
 import util.ComparadorRostros;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;

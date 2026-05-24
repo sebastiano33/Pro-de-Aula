@@ -1,6 +1,6 @@
 package util;
 
-import gui.PanelGestionVotaciones;
+import gui.admin.PanelGestionVotaciones;
 
 public class SesionUsuario {
     private static int idUsuario = -1;

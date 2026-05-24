@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package gui;
+package gui.admin;
 import java.util.ArrayList;
 import config.Conexion;
 import java.awt.Color;
@@ -69,15 +69,15 @@ public class PanelGestionVotaciones extends javax.swing.JPanel {
                 g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 30, 30);
             }
         };
-        roundedPanel3 = new gui.RoundedPanel();
+        roundedPanel3 = new gui.components.RoundedPanel();
         lbl_desactivar = new javax.swing.JLabel();
-        roundedPanel1 = new gui.RoundedPanel();
+        roundedPanel1 = new gui.components.RoundedPanel();
         lbl_editar = new javax.swing.JLabel();
-        roundedPanel4 = new gui.RoundedPanel();
+        roundedPanel4 = new gui.components.RoundedPanel();
         lbl_entrar = new javax.swing.JLabel();
-        roundedPanel5 = new gui.RoundedPanel();
+        roundedPanel5 = new gui.components.RoundedPanel();
         lbl_activar = new javax.swing.JLabel();
-        panel_dinamico = new gui.RoundedPanel();
+        panel_dinamico = new gui.components.RoundedPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         caja_descripcion = new javax.swing.JTextField();
@@ -545,11 +545,11 @@ chooser.setFileFilter(filtro);
     private javax.swing.JLabel lbl_desactivar;
     private javax.swing.JLabel lbl_editar;
     private javax.swing.JLabel lbl_entrar;
-    private gui.RoundedPanel panel_dinamico;
-    private gui.RoundedPanel roundedPanel1;
-    private gui.RoundedPanel roundedPanel3;
-    private gui.RoundedPanel roundedPanel4;
-    private gui.RoundedPanel roundedPanel5;
+    private gui.components.RoundedPanel panel_dinamico;
+    private gui.components.RoundedPanel roundedPanel1;
+    private gui.components.RoundedPanel roundedPanel3;
+    private gui.components.RoundedPanel roundedPanel4;
+    private gui.components.RoundedPanel roundedPanel5;
     // End of variables declaration//GEN-END:variables
 
     private void mostrarPropuestas(String nombre) {

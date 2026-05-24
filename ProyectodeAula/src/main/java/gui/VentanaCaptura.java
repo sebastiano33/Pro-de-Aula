@@ -1,5 +1,7 @@
 package gui;
 
+import gui.panels.PanelReconocimiento;
+import gui.auth.registro;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 import org.opencv.core.Size;

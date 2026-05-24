@@ -1,4 +1,4 @@
-package gui;
+package gui.panels;
 
 import org.opencv.core.*;
 import org.opencv.videoio.VideoCapture;
