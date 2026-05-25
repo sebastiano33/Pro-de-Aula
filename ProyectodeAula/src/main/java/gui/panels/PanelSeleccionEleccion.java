@@ -4,9 +4,14 @@
  */
 package gui.panels;
 import config.Conexion;
+import gui.admin.menuAdmin;
 import gui.menuPrincipal;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.Image;
+import java.awt.Window;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,6 +48,20 @@ private List<String> nombres = new ArrayList<>();
         initCustomComponents();
         cargarElecciones();
         initEventos();  
+        JButton btn_volver = new JButton("←");
+        btn_volver.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        btn_volver.setForeground(Color.WHITE);
+        btn_volver.setBackground(new Color(0, 74, 173));
+        btn_volver.setFocusPainted(false);
+        btn_volver.setBorderPainted(false);
+        btn_volver.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btn_volver.addActionListener(e -> {
+            Window ventana = SwingUtilities.getWindowAncestor(this);
+            if (ventana instanceof menuPrincipal m) {
+                m.restaurarMenuPrincipal();
+            }
+        });
+        add(btn_volver, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 20, 50, 40));
     }
     
         private void initCustomComponents() {

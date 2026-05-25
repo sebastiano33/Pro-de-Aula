@@ -13,7 +13,6 @@ import org.opencv.imgproc.Imgproc;
  *   4. Boca            (filas 76–106)
  *   5. Cara global     (imagen completa, peso reducido)
  *
- * Acceso concedido si ≥ 4 de 5 regiones pasan su umbral individual.
  * Score: 0.0 = idéntico, 1.0 = completamente distinto.
  */
 public class ComparadorRostros {
@@ -21,12 +20,12 @@ public class ComparadorRostros {
     // ── Umbral por región ────────────────────────────────────────
     private static final double UMBRAL_FRENTE = 0.32;
     private static final double UMBRAL_OJOS   = 0.28;
-    private static final double UMBRAL_NARIZ  = 0.28;
+    private static final double UMBRAL_NARIZ  = 0.55;
     private static final double UMBRAL_BOCA   = 0.55;
     private static final double UMBRAL_GLOBAL = 0.35;
 
     // ── Regiones mínimas para acceso ────────────────────────────
-    private static final int REGIONES_MINIMAS = 3;   // de 5
+    private static final int REGIONES_MINIMAS = 2;
 
     private static final double PORCENTAJE_VOTOS = 0.55;
 
@@ -42,7 +41,6 @@ public class ComparadorRostros {
     private static final int BOCA_Y1   = 76;
     private static final int BOCA_Y2   = 106;
 
-    // Votos de región del último comparar()
     private static int ultimosVotosRegion = 0;
 
     // ════════════════════════════════════════════════════════════
@@ -90,16 +88,10 @@ public class ComparadorRostros {
         return score;
     }
 
-    /** Votos de región de la última llamada a comparar(). */
     public static int getUltimosVotosRegion() {
         return ultimosVotosRegion;
     }
 
-    /**
-     * true si la última comparación superó el mínimo de regiones.
-     * Usado internamente — en VentanaLoginFace se usa getUltimosVotosRegion()
-     * directamente para mayor control.
-     */
     public static boolean esMismaPersona(double score) {
         return ultimosVotosRegion >= REGIONES_MINIMAS;
     }
@@ -129,61 +121,61 @@ public class ComparadorRostros {
     }
 
     // ════════════════════════════════════════════════════════════
-    //  PREPROCESAMIENTO
+    //  PREPROCESAMIENTO — ROBUSTO ANTE CAMBIOS DE ILUMINACIÓN
     // ════════════════════════════════════════════════════════════
 
     private static Mat preprocesar(Mat src) {
-    Mat gris = new Mat();
-    if (src.channels() >= 3)
-        Imgproc.cvtColor(src, gris,
-                src.channels() == 4 ? Imgproc.COLOR_BGRA2GRAY
-                                    : Imgproc.COLOR_BGR2GRAY);
-    else
-        gris = src.clone();
+        // 1. Convertir a gris
+        Mat gris = new Mat();
+        if (src.channels() >= 3)
+            Imgproc.cvtColor(src, gris,
+                    src.channels() == 4 ? Imgproc.COLOR_BGRA2GRAY
+                                        : Imgproc.COLOR_BGR2GRAY);
+        else
+            gris = src.clone();
 
-    Imgproc.resize(gris, gris, new Size(TAM, TAM));
+        // 2. Redimensionar
+        Imgproc.resize(gris, gris, new Size(TAM, TAM));
 
-    // Máscara elíptica — elimina bordes con posible fondo
-    Mat mascara = Mat.zeros(TAM, TAM, CvType.CV_8UC1);
-    Imgproc.ellipse(mascara,
-            new Point(TAM / 2, TAM / 2),
-            new Size(52, 62),   // cubre cara pero recorta bordes
-            0, 0, 360,
-            new Scalar(255), -1);
-    gris.copyTo(gris, mascara);
+        // 3. Máscara elíptica — elimina fondo y bordes
+        Mat mascara = Mat.zeros(TAM, TAM, CvType.CV_8UC1);
+        Imgproc.ellipse(mascara,
+                new Point(TAM / 2, TAM / 2),
+                new Size(52, 62),
+                0, 0, 360, new Scalar(255), -1);
+        gris.copyTo(gris, mascara);
 
-    gris = retinexDoG(gris);
-    gris = corregirGamma(gris, 1.5);
+        // 4. CLAHE — compensa iluminación local sin destruir estructura facial
+        org.opencv.imgproc.CLAHE clahe = Imgproc.createCLAHE(3.0, new Size(8, 8));
+        clahe.apply(gris, gris);
 
-    org.opencv.imgproc.CLAHE clahe = Imgproc.createCLAHE(4.0, new Size(4, 4));
-    clahe.apply(gris, gris);
-
-    Mat bilateral = new Mat();
-    Imgproc.bilateralFilter(gris, bilateral, 9, 75, 75);
-    return bilateral;
-}
-
-    private static Mat retinexDoG(Mat gris) {
+        // 5. Normalización por media/desviación estándar
+        //    Hace que lo que importa sea la DISTRIBUCIÓN de intensidades,
+        //    no el valor absoluto → robusto ante cambios de ambiente/iluminación
         Mat float32 = new Mat();
         gris.convertTo(float32, CvType.CV_32F);
-        Mat blur1 = new Mat(), blur2 = new Mat();
-        Imgproc.GaussianBlur(float32, blur1, new Size(0, 0), 1.0);
-        Imgproc.GaussianBlur(float32, blur2, new Size(0, 0), 2.0);
-        Mat dog = new Mat();
-        Core.subtract(blur1, blur2, dog);
-        Core.normalize(dog, dog, 0, 255, Core.NORM_MINMAX);
-        Mat resultado = new Mat();
-        dog.convertTo(resultado, CvType.CV_8U);
-        return resultado;
-    }
 
-    private static Mat corregirGamma(Mat src, double gamma) {
-        Mat float32 = new Mat();
-        src.convertTo(float32, CvType.CV_32F, 1.0 / 255.0);
-        Core.pow(float32, 1.0 / gamma, float32);
+        MatOfDouble mean   = new MatOfDouble();
+        MatOfDouble stddev = new MatOfDouble();
+        Core.meanStdDev(float32, mean, stddev);
+
+        double mu = mean.toArray()[0];
+        double sd = stddev.toArray()[0];
+
+        if (sd > 0) {
+            Core.subtract(float32, new Scalar(mu), float32);
+            Core.divide(float32, new Scalar(sd), float32);
+            Core.multiply(float32, new Scalar(40.0), float32);
+            Core.add(float32, new Scalar(128.0), float32);
+        }
+
         Mat resultado = new Mat();
-        float32.convertTo(resultado, CvType.CV_8U, 255.0);
-        return resultado;
+        float32.convertTo(resultado, CvType.CV_8U);
+
+        // 6. Filtro bilateral — suaviza ruido preservando bordes faciales
+        Mat bilateral = new Mat();
+        Imgproc.bilateralFilter(resultado, bilateral, 7, 50, 50);
+        return bilateral;
     }
 
     // ════════════════════════════════════════════════════════════

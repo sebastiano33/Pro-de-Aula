@@ -5,15 +5,21 @@
 package gui.admin;
 import java.util.ArrayList;
 import config.Conexion;
+import gui.menuPrincipal;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.Image;
+import java.awt.Window;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import util.placeHolderJtext;
 
@@ -38,7 +44,6 @@ public class PanelGestionVotaciones extends javax.swing.JPanel {
         placeHolderJtext.addPlaceholder(caja_descripcion, "UEscriba aquí la descripción de la elección");
         placeHolderJtext.addPlaceholder(caja_carrera, "carrera");
         placeHolderJtext.addPlaceholder(caja_carrera, "carrera");
-        
     }
 
     /**
@@ -108,7 +113,7 @@ public class PanelGestionVotaciones extends javax.swing.JPanel {
         caja_idc = new javax.swing.JTextField();
         lblFoto = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        btn_propuestas = new javax.swing.JButton();
+        boton_volver = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
@@ -365,15 +370,19 @@ public class PanelGestionVotaciones extends javax.swing.JPanel {
         jLabel16.setText("Preview imagen seleccionada");
         panel_dinamico.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 280, -1, -1));
 
-        btn_propuestas.setText("Agregar Propuestas");
-        btn_propuestas.addActionListener(new java.awt.event.ActionListener() {
+        add(panel_dinamico, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 60, 590, 510));
+
+        boton_volver.setBackground(new java.awt.Color(0, 74, 173));
+        boton_volver.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        boton_volver.setForeground(new java.awt.Color(255, 255, 255));
+        boton_volver.setText("←");
+        boton_volver.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        boton_volver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_propuestasActionPerformed(evt);
+                boton_volverActionPerformed(evt);
             }
         });
-        panel_dinamico.add(btn_propuestas, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 420, 130, 30));
-
-        add(panel_dinamico, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 60, 590, 510));
+        add(boton_volver, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 10, 90, 30));
     }// </editor-fold>//GEN-END:initComponents
 
     private void salida(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salida
@@ -498,16 +507,20 @@ chooser.setFileFilter(filtro);
     }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void btn_propuestasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_propuestasActionPerformed
+    private void boton_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_volverActionPerformed
         // TODO add your handling code here:
-        btn_propuestas.addActionListener( e -> mostrarPropuestas(nombre)
-        );
-                 add(btn_propuestas);
-    }//GEN-LAST:event_btn_propuestasActionPerformed
+        this.setVisible(false);
+
+    Window ventana = SwingUtilities.getWindowAncestor(this);
+
+    if (ventana instanceof menuAdmin admin) {
+        admin.restaurarMenuAdm();
+    }
+    }//GEN-LAST:event_boton_volverActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_propuestas;
+    private javax.swing.JButton boton_volver;
     private javax.swing.JTextField caja_carrera;
     private javax.swing.JTextField caja_descripcion;
     private javax.swing.JTextField caja_ffin;

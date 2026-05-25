@@ -34,13 +34,13 @@ public class RecuperarFace extends JFrame {
     // Margen: el score del titular debe ser al menos MARGEN_SEGURIDAD
     // menor que el mejor score de cualquier usuario ajeno.
     // Ejemplo: si titular=0.18 y ajeno=0.21 → diferencia=0.03 < 0.06 → BLOQUEADO
-    private static final double MARGEN_SEGURIDAD = 0.02;
+    private static final double MARGEN_SEGURIDAD = 0.06;
 
     // Mínimo de votos por región que debe obtener el titular
-    private static final int VOTOS_REGION_MINIMOS = 4; // de 5
+    private static final int VOTOS_REGION_MINIMOS = 3; // de 5
 
     // Porcentaje mínimo de fotos del dataset propias que deben votar a favor
-    private static final double PORCENTAJE_VOTOS_PROPIOS = 0.45;
+    private static final double PORCENTAJE_VOTOS_PROPIOS = 0.30;
 
     public RecuperarFace(int idUsuario, String correo, String nombre) {
 

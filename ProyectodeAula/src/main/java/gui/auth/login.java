@@ -23,6 +23,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
+import util.placeHolderJtext;
 public class login extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(login.class.getName());
@@ -33,6 +34,8 @@ public class login extends javax.swing.JFrame {
     public login() {
         initComponents();
         cargarIconos();
+        placeHolderJtext.addPlaceholder(caja_usuario, "INGRESE SU USUARIO");
+        placeHolderJtext.addPlaceholderPassword(caja_contraseña, "Contraseña");
         // Limpiar campos al hacer click
 caja_usuario.addFocusListener(new java.awt.event.FocusAdapter() {
     @Override

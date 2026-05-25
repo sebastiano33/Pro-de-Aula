@@ -25,8 +25,35 @@ public class PanelResultados extends javax.swing.JPanel {
     private int totalVotosActual = 0;
 
     public PanelResultados() {
-        initComponentes();
-        cargarElecciones();
+         initComponentes();
+    cargarElecciones();
+
+    JButton btn_volver = new JButton("←");
+
+    btn_volver.setFont(new Font("Segoe UI", Font.BOLD, 22));
+    btn_volver.setForeground(Color.WHITE);
+    btn_volver.setBackground(new Color(0, 74, 173));
+
+    btn_volver.setFocusPainted(false);
+    btn_volver.setBorderPainted(false);
+    btn_volver.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+    btn_volver.addActionListener(e -> {
+
+        this.setVisible(false);
+
+        Window ventana = SwingUtilities.getWindowAncestor(this);
+
+        if (ventana instanceof menuAdmin m) {
+            m.restaurarMenuAdm();
+        }
+    });
+
+    add(btn_volver,
+        new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 15, 50, 40));
+
+    revalidate();
+    repaint();
     }
 
     private void initComponentes() {

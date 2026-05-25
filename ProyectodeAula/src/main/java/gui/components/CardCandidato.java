@@ -153,12 +153,9 @@ public class CardCandidato extends RoundedPanel {
         lbl_nombre = new javax.swing.JLabel();
         lbl_carrera = new javax.swing.JLabel();
         btn_votar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(255, 255, 255));
         setMaximumSize(new java.awt.Dimension(260, 380));
         setMinimumSize(new java.awt.Dimension(260, 380));
-        setOpaque(false);
         setPreferredSize(new java.awt.Dimension(260, 380));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         add(lbl_foto, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 120, 120));
@@ -177,17 +174,11 @@ public class CardCandidato extends RoundedPanel {
         btn_votar.setForeground(new java.awt.Color(255, 255, 255));
         btn_votar.setText("Votar");
         add(btn_votar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 310, 112, 50));
-
-        jButton1.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(8, 51, 162));
-        jButton1.setText("Propuestas");
-        add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 260, 110, 30));
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_votar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel lbl_carrera;
     private javax.swing.JLabel lbl_foto;
     private javax.swing.JLabel lbl_nombre;

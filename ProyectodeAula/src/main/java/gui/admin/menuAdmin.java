@@ -253,7 +253,7 @@ tarjeta_2.add(icono_entrare, new org.netbeans.lib.awtextra.AbsoluteConstraints(1
         panel_fondo.setMinimumSize(new java.awt.Dimension(1280, 720));
         panel_fondo.setPreferredSize(new java.awt.Dimension(1280, 720));
         panel_fondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        panel_fondo.add(panelGestionVotaciones1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 900, 580));
+        panel_fondo.add(panelGestionVotaciones1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 100, 900, 580));
 
         panel_azul.setBackground(new java.awt.Color(0, 74, 173));
         panel_azul.setMaximumSize(new java.awt.Dimension(1280, 90));
@@ -395,6 +395,11 @@ tarjeta_2.add(icono_entrare, new org.netbeans.lib.awtextra.AbsoluteConstraints(1
 
         icono_entrare.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         icono_entrare.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        icono_entrare.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                icono_entrareMouseClicked(evt);
+            }
+        });
         tarjeta_2.add(icono_entrare, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 280, 100, 100));
 
         panel_fondo.add(tarjeta_2, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 200, 320, 380));
@@ -603,8 +608,13 @@ tarjeta_2.add(icono_entrare, new org.netbeans.lib.awtextra.AbsoluteConstraints(1
     panelGestionVotaciones1.revalidate();
 
     }//GEN-LAST:event_click
+
+    private void icono_entrareMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_icono_entrareMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_icono_entrareMouseClicked
 private void clickReportes(java.awt.event.MouseEvent evt) {
 
+   
     tarjeta_1.setVisible(false);
     tarjeta_2.setVisible(false);
     tarjeta_3.setVisible(false);
@@ -612,8 +622,17 @@ private void clickReportes(java.awt.event.MouseEvent evt) {
 
     panelResultados1.setVisible(true);
 
-    panelResultados1.repaint();
-    panelResultados1.revalidate();
+    panelResultados1.setOpaque(true);
+    panelResultados1.setBackground(Color.WHITE);
+
+    panelResultados1.setBounds(0, 0,
+            panel_fondo.getWidth(),
+            panel_fondo.getHeight());
+
+    panel_fondo.setComponentZOrder(panelResultados1, 0);
+
+    panel_fondo.revalidate();
+   panel_fondo.repaint();
 }
     /**
      * @param args the command line arguments
@@ -709,5 +728,24 @@ private void cargarIconos() {
     icono_entrarp.setIcon(cargarIcono("user blanco (2).png", 100, 100));
      icono_cerrar.setIcon(cargarIcono("user blanco (1).png", 100, 100));
 
+}
+public void restaurarMenuAdm() {
+
+    
+
+    tarjeta_1.setVisible(true);
+    tarjeta_2.setVisible(true);
+    tarjeta_3.setVisible(true);
+
+    panel_footer.setVisible(true);
+
+    lbl_bienvenida.setVisible(true);
+
+    jLabel3.setVisible(true);
+
+    panel_decoracion.setVisible(true);
+
+    panel_fondo.revalidate();
+    panel_fondo.repaint();
 }
 }
